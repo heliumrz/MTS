@@ -107,9 +107,7 @@ public class TransitionSystem {
     public HashMap<Integer, Train> getTrains() { return trains; }
     
     public ArrayList<Rider> generateRiders(int stopID, int inputNumbers) {
-        ArrayList<Rider> riderList = new ArrayList<Rider>();
-        
-        
+        ArrayList<Rider> riderList = new ArrayList<Rider>();        
         return riders;
     }
   
