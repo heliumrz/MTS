@@ -82,7 +82,7 @@ public class TransitionSystem {
     
     public void setRoadCondition(int busRouteID, int stopID1, int stopID2, Double distance, int lowestSpeed, int averageSpeed, int maxSpeed) {
         BusRoute busRoute = getBusRoute(busRouteID);
-        RoadCondtion roadCondition = new RoadCondtion(distance, lowestSpeed, averageSpeed, maxSpeed);
+        RoadCondition roadCondition = new RoadCondition(distance, lowestSpeed, averageSpeed, maxSpeed);
         busRoute.addRoadCondition(roadCondition, stopID1, stopID2);
     }
     

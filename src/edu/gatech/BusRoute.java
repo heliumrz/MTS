@@ -64,7 +64,7 @@ public class BusRoute {
         this.roadConditions.put(stopPair, roadCondition);        
     }
     
-    public RoadCondtion getRoadCondition(int stopID1, int stopID2) {
+    public RoadCondition getRoadCondition(int stopID1, int stopID2) {
         MiniPair stopPair = new MiniPair(stopID1, stopID2);
         RoadCondition roadCondition = this.roadConditions.get(stopPair);
         return roadCondition;
