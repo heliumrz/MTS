@@ -35,7 +35,7 @@ public class SimDriver {
                     System.out.println(" type: " + tokens[2] + " ID: " + Integer.parseInt(tokens[3]) + " created");
                     break;
                 case "add_stop":
-                    int stopID = martaModel.makeStop(Integer.parseInt(tokens[1]), tokens[2], Double.parseDouble(tokens[3]), Double.parseDouble(tokens[4]));
+                    int stopID = martaModel.makeStop(Integer.parseInt(tokens[1]), tokens[2], Double.parseDouble(tokens[3]), Double.parseDouble(tokens[4]), Integer.parseInt(tokens[5]));
                     System.out.println(" new stop: " + Integer.toString(stopID) + " created");
                     break;
                 case "add_bus_route":
@@ -73,18 +73,6 @@ public class SimDriver {
                 case "generate_map":
                     martaModel.generateMap();
                     System.out.println(" Transition map is generated. ");
-                    break;
-                case "add_rider_to_bus":
-                    martaModel.addRiderToBus(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
-                    System.out.println(" Initiate bus riders. ");
-                    break;
-                case "add_rider_to_train":
-                    martaModel.addRiderToTrain(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
-                    System.out.println(" Initiate train riders. ");
-                    break;
-                case "add_rider_to_stop":
-                    martaModel.addRiderToStop(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
-                    System.out.println(" Initiate stop riders. ");
                     break;
                 /*case "upload_real_data":
                     uploadMARTAData();

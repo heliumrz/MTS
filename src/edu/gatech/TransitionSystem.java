@@ -52,10 +52,10 @@ public class TransitionSystem {
         return null;
     }
 
-    public int makeStop(int uniqueID, String inputName, double inputXCoord, double inputYCoord) {
+    public int makeStop(int uniqueID, String inputName, double inputXCoord, double inputYCoord, int riderRandomNumber) {
         // int uniqueID = stops.size();
         //ArrayList<Rider> inputRiderList = generateRiders(uniqueID, inputRiders, 0);
-        stops.put(uniqueID, new Stop(uniqueID, inputName, inputXCoord, inputYCoord));
+        stops.put(uniqueID, new Stop(uniqueID, inputName, inputXCoord, inputYCoord, riderRandomNumber));
         return uniqueID;
     }
 

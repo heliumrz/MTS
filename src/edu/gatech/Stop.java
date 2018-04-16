@@ -13,6 +13,7 @@ public class Stop {
     private Integer averageWaitingTime;
     private HashMap<Integer, int[]> rateWaiting;
     private ArrayList<Rider> waiting;
+    private Integer riderRandomNumber;
 
     public Stop() {
         this.ID = -1;
@@ -28,9 +29,10 @@ public class Stop {
         this.waiting = new ArrayList<Rider>();
         this.averageWaitingTime = 0;
         this.rateWaiting = new HashMap<Integer, int[]>();
+        this.riderRandomNumber = 0;
     }
 
-    public Stop(int uniqueValue, String inputName, double inputXCoord, double inputYCoord) {
+    public Stop(int uniqueValue, String inputName, double inputXCoord, double inputYCoord, int riderRandomNumber) {
         this.ID = uniqueValue;
         this.stopName = inputName;
         this.xCoord = inputXCoord;
@@ -38,6 +40,7 @@ public class Stop {
         this.randGenerator = new Random();
         this.waiting = new ArrayList<Rider>();
         this.rateWaiting = new HashMap<Integer, int[]>();
+        this.riderRandomNumber = riderRandomNumber;
    }
 
     public void setName(String inputName) { this.stopName = inputName; }
@@ -106,7 +109,7 @@ public class Stop {
         if (waitingNumber != null) {
             newRiderNumber = randomBiasedValue(waitingNumber[0], waitingNumber[1], waitingNumber[2]);
         } else {
-            newRiderNumber = (int) (Math.random() * 5);
+            newRiderNumber = (int) (Math.random() * riderRandomNumber);
         }
         return newRiderNumber;
     }
