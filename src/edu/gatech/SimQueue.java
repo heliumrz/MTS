@@ -36,36 +36,37 @@ public class SimQueue {
                     // generate and add new riders to active stop
                     int newRiderNumber = activeStop.getIntendedNewRiders(activeEvent.getRank());
                     ArrayList<Rider> newRiderList = busModel.generateRiders(activeStopID, newRiderNumber, activeEvent.getRank());
-                    System.out.println("New riders:\n" + newRiderList);
+                    System.out.println(" New riders:\n " + newRiderList);
                     activeStop.addNewRiders(newRiderList);
-                    System.out.println("Waiting:\n" + activeStop.getWaiting());
+                    System.out.println(" Waiting riders:\n " + activeStop.getWaiting());
 
                     // drop off passengers at current stop
                     int preStopPassengers = activeBus.getPassengers().size();
-                    ArrayList<Rider> arrivingPassengerList = activeBus.passengersLeave(activeStopID, activeEvent.getRank());
-                    System.out.println("Arriving riders:\n" + arrivingPassengerList);
+                    ArrayList<Rider> exchangePassengerList = activeBus.passengersLeave(activeStopID, activeEvent.getRank());
+                    System.out.println(" Exchange riders:\n " + exchangePassengerList);
                     
                     // exchange riders in active stop: riders leave stop for boarding and passengers add to stop waiting list
                     int availableSeats = activeBus.getCapacity() - activeBus.getPassengers().size();
-                    ArrayList<Rider> boardingPassengerList = activeStop.exchangeRiders(activeEvent.getRank(), availableSeats, activeBus.getRouteID(), arrivingPassengerList);
-                    System.out.println("Boarding riders:\n" + boardingPassengerList);
+                    ArrayList<Rider> boardingPassengerList = activeStop.exchangeRiders(activeEvent.getRank(), availableSeats, activeBus.getRouteID(), exchangePassengerList);
+                    System.out.println(" Boarding riders:\n " + boardingPassengerList);
+                    System.out.println(" The average waiting time is: " + activeStop.getAverageWaitingTime() + "\n");
                     
                     // add new passengers to active bus
                     activeBus.addNewPassengers(boardingPassengerList);
                     int postStopPassengers = activeBus.getPassengers().size();
                  
-                    System.out.println(" passengers pre-stop: " + Integer.toString(preStopPassengers) + " post-stop: " + Integer.toString(postStopPassengers));
+                    System.out.println(" Passengers pre-stop: " + Integer.toString(preStopPassengers) + " post-stop: " + Integer.toString(postStopPassengers));
 
                     // determine next stop
                     int nextLocation = activeRoute.getNextLocation(activeLocation);
                     int nextStopID = activeRoute.getStopID(nextLocation);
                     Stop nextStop = busModel.getStop(nextStopID);
-                    System.out.println(" the bus is heading to stop: " + Integer.toString(nextStopID) + " - " + nextStop.getName() + "\n");
+                    System.out.println(" The bus is heading to stop: " + Integer.toString(nextStopID) + " - " + nextStop.getName() + "\n");
                     
                    // get road condition 
                     RoadCondition roadCondition = activeRoute.getRoadCondition(activeStopID, nextStopID); 
                     if (roadCondition == null) {
-                        System.out.println(String.format("Error: no road condition found! %d, %d", activeStopID, nextStopID));
+                        System.out.println(String.format(" Error: no road condition found! %d, %d", activeStopID, nextStopID));
                     }
                     
                     // get speed and distance between two stops
@@ -103,21 +104,27 @@ public class SimQueue {
                     // generate and add new riders to active stop
                     int newStopRiderNumber = activeRailStop.getIntendedNewRiders(activeEvent.getRank());
                     ArrayList<Rider> newStopRiderList = busModel.generateRiders(activeRailStopID, newStopRiderNumber, activeEvent.getRank());
+                    System.out.println(" New riders:\n " + newStopRiderList);
                     activeRailStop.addNewRiders(newStopRiderList);
+                    System.out.println(" Waiting riders:\n " + activeRailStop.getWaiting());
+                    
 
                     // drop off passengers at current stop
                     int preRailStopPassengers = activeTrain.getPassengers().size();
-                    ArrayList<Rider> arrivingStopPassengerList = activeTrain.passengersLeave(activeRailStopID, activeEvent.getRank());
+                    ArrayList<Rider> exchangeStopPassengerList = activeTrain.passengersLeave(activeRailStopID, activeEvent.getRank());
+                    System.out.println(" Exchange riders:\n " + exchangeStopPassengerList);
                     
                     // exchange riders in active stop: riders leave stop for boarding and passengers add to stop waiting list
                     int availableTrainSeats = activeTrain.getCapacity() - activeTrain.getPassengers().size();
-                    ArrayList<Rider> boardingTrainPassengerList = activeRailStop.exchangeRiders(activeEvent.getRank(), availableTrainSeats, activeTrain.getRouteID(), arrivingStopPassengerList);
+                    ArrayList<Rider> boardingTrainPassengerList = activeRailStop.exchangeRiders(activeEvent.getRank(), availableTrainSeats, activeTrain.getRouteID(), exchangeStopPassengerList);
+                    System.out.println(" Boarding riders:\n " + boardingTrainPassengerList);
+                    System.out.println(" The average waiting time is: " + activeRailStop.getAverageWaitingTime() + "\n");
                     
                     // add new passengers to active bus
                     activeTrain.addNewPassengers(boardingTrainPassengerList);
                     int postRailStopPassengers = activeTrain.getPassengers().size();
                  
-                    System.out.println(" passengers pre-stop: " + Integer.toString(preRailStopPassengers) + " post-stop: " + Integer.toString(postRailStopPassengers));
+                    System.out.println(" Passengers pre-stop: " + Integer.toString(preRailStopPassengers) + " post-stop: " + Integer.toString(postRailStopPassengers));
 
                     // determine next stop
                     int nextTrainLocation = activeRailRoute.getNextLocation(activeTrainLocation);

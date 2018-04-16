@@ -110,6 +110,10 @@ public class TransitionSystem {
         BusRoute busRoute = busRoutes.get(bus.getRouteID());
         int stopID = busRoute.getStopID(bus.getLocation());
         ArrayList<Rider> inputPassengerList = generateRiders(stopID, riderNumber, 0);
+     // Remove the start point
+        for(Rider rider : inputPassengerList) {
+            rider.setDestinationList(rider.getDestinationList().subList(1, rider.getDestinationList().size()));
+        }
         bus.addNewPassengers(inputPassengerList);
     }
     
@@ -118,6 +122,10 @@ public class TransitionSystem {
         RailRoute railRoute = railRoutes.get(train.getRouteID());
         int stopID = railRoute.getStopID(train.getLocation());
         ArrayList<Rider> inputPassengerList = generateRiders(stopID, riderNumber, 0);
+        // Remove the start point
+        for(Rider rider : inputPassengerList) {       
+            rider.setDestinationList(rider.getDestinationList().subList(1, rider.getDestinationList().size()));
+        }
         train.addNewPassengers(inputPassengerList);
     }
     
@@ -340,8 +348,6 @@ public class TransitionSystem {
             	bw.write("  stop" + Integer.toString(prevStop) + " -> bus" + Integer.toString(m.getID()) + " [ label=\" dep\" ];\n");
             	bw.write("  bus" + Integer.toString(m.getID()) + " -> stop" + Integer.toString(nextStop) + " [ label=\" arr\" ];\n");
             }
-    	
-            bw.write("}\n");
             
             for (Train m: trains.values()) {
                 Integer prevStop = railRoutes.get(m.getRouteID()).getStopID(m.getPastLocation());

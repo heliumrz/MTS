@@ -1,15 +1,15 @@
 package edu.gatech;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Rider {
-    private ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList;
+    private List<HashMap<Integer, ArrayList<Integer>>> destinationList;
     private Integer startTime;
     private Integer arriveStopTime;
     private Integer onBoardTime;
     private Integer accumulatedOnBusTime;
     private Integer waitTime;
-    private Integer currentRouteID;
     
     
     public Rider() {
@@ -19,7 +19,6 @@ public class Rider {
         this.onBoardTime = 0;
         this.accumulatedOnBusTime = 0;
         this.waitTime = 0;
-        this.currentRouteID = -1;
     }
 
     public Rider(ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList, int eventStartTime) {
@@ -29,16 +28,18 @@ public class Rider {
         this.onBoardTime = eventStartTime;
         this.accumulatedOnBusTime = 0;
         this.waitTime = 0;
-        this.currentRouteID = -1;
    }
     
-   public ArrayList<HashMap<Integer, ArrayList<Integer>>> getDestinationList() {
+   public List<HashMap<Integer, ArrayList<Integer>>> getDestinationList() {
        return this.destinationList;
    }
    
+   public void setDestinationList(List<HashMap<Integer, ArrayList<Integer>>> input) {
+       this.destinationList = input;
+   }
+   
    public void boardingVehicle(int routeID, int eventTime) {
-       currentRouteID = routeID;
-       destinationList.remove(0);
+       destinationList = destinationList.subList(1, destinationList.size());
        onBoardTime = eventTime;
        waitTime = eventTime - startTime;
    }
@@ -47,6 +48,10 @@ public class Rider {
            arriveStopTime = eventTime;
            accumulatedOnBusTime += arriveStopTime - onBoardTime; 
            startTime = eventTime;
+   }
+   
+   public Integer getWaitingTime() {
+       return this.waitTime;
    }
    
    public boolean arriveAtDestination() {
@@ -63,9 +68,13 @@ public class Rider {
        
        for(HashMap<Integer, ArrayList<Integer>> x : destinationList) {
            int stop = x.keySet().iterator().next();
-           str.append("Stop: " + stop + ", routes=" + x.get(stop) + "|");
+           str.append("StopID: " + stop + ", routeList: " + x.get(stop) + " | ");
        }
-       str.append(")\n");
+       int index = str.length();
+       str.deleteCharAt(index-1);
+       str.deleteCharAt(index-2);
+       str.deleteCharAt(index-3);
+       str.append(")");
        return str.toString();
    }
 

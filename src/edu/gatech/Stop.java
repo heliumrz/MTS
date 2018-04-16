@@ -10,6 +10,7 @@ public class Stop {
     private Double xCoord;
     private Double yCoord;
     private Random randGenerator;
+    private Integer averageWaitingTime;
     private HashMap<Integer, int[]> rateWaiting;
     private ArrayList<Rider> waiting;
 
@@ -23,7 +24,9 @@ public class Stop {
         this.xCoord = 0.0;
         this.yCoord = 0.0;
         this.randGenerator = new Random();
+        this.averageWaitingTime = 0;
         this.waiting = new ArrayList<Rider>();
+        this.averageWaitingTime = 0;
         this.rateWaiting = new HashMap<Integer, int[]>();
     }
 
@@ -67,12 +70,14 @@ public class Stop {
     public ArrayList<Rider> exchangeRiders(int rank, int availableSeats, int routeID, ArrayList<Rider> arrivingPassengers) {
         ArrayList<Rider> boardingList = new ArrayList<Rider>();
         int seats = availableSeats;
+        int waitingTime = 0;
         for (Rider rider : this.waiting) {
             int key = rider.getDestinationList().get(0).keySet().iterator().next();
             ArrayList<Integer> routeList = rider.getDestinationList().get(0).get(key);
             if (routeList.contains(routeID)) {               
                 if (seats > 0) {
                     rider.boardingVehicle(routeID, rank);
+                    waitingTime += rider.getWaitingTime();
                     boardingList.add(rider);
                     //this.waiting.remove(rider);
                     seats--;
@@ -81,11 +86,18 @@ public class Stop {
                 }
             }
         }
+        if (!boardingList.isEmpty()) {
+            this.averageWaitingTime = waitingTime / boardingList.size();
+        }
         this.waiting.removeAll(boardingList);
         this.waiting.addAll(arrivingPassengers);
         return boardingList;        
     }
         
+    public Integer getAverageWaitingTime() {
+        return this.averageWaitingTime;
+    }
+    
     public void addNewRiders(ArrayList<Rider> moreRiders) { waiting.addAll(moreRiders); }
     
     public Integer getIntendedNewRiders(int eventTime) {

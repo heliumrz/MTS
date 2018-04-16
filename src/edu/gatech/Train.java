@@ -86,6 +86,7 @@ public class Train {
                     exchangeList.add(passenger);
                 }
                 deboardList.add(passenger);
+                
             }
         }
         passengers.removeAll(deboardList);
