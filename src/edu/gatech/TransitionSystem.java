@@ -3,6 +3,7 @@ package edu.gatech;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,6 +14,8 @@ public class TransitionSystem {
     private HashMap<Integer, RailRoute> railRoutes;
     private HashMap<Integer, Train> trains;
     private HashMap<Integer, Bus> buses;
+    private HashMap<Integer, ArrayList<ArrayList<HashMap<Integer, ArrayList<Integer>>>>> shortestPaths;
+    private HashMap<MiniPair, ArrayList<Integer>> routesOnStop;
 
     public TransitionSystem() {
         stops = new HashMap<Integer, Stop>();
@@ -20,6 +23,8 @@ public class TransitionSystem {
         railRoutes = new HashMap<Integer, RailRoute>();
         trains = new HashMap<Integer, Train>();
         buses = new HashMap<Integer, Bus>();
+        shortestPaths = new HashMap<Integer, ArrayList<ArrayList<HashMap<Integer, ArrayList<Integer>>>>>();
+        routesOnStop = new HashMap<MiniPair, ArrayList<Integer>>();
     }
 
     public Stop getStop(int stopID) {
@@ -47,10 +52,10 @@ public class TransitionSystem {
         return null;
     }
 
-    public int makeStop(int uniqueID, String inputName, int inputRiders, double inputXCoord, double inputYCoord) {
+    public int makeStop(int uniqueID, String inputName, double inputXCoord, double inputYCoord) {
         // int uniqueID = stops.size();
-        ArrayList<Rider> inputRiderList = generateRiders(uniqueID, inputRiders);
-        stops.put(uniqueID, new Stop(uniqueID, inputName, inputRiderList, inputXCoord, inputYCoord));
+        //ArrayList<Rider> inputRiderList = generateRiders(uniqueID, inputRiders, 0);
+        stops.put(uniqueID, new Stop(uniqueID, inputName, inputXCoord, inputYCoord));
         return uniqueID;
     }
 
@@ -66,21 +71,21 @@ public class TransitionSystem {
         return uniqueID;
     }
 
-    public int makeBus(int uniqueID, int inputRoute, int inputLocation, int inputPassengers, int inputCapacity, int inputSpeed) {
+    public int makeBus(int uniqueID, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
         // int uniqueID = buses.size();
-        ArrayList<Rider> inputPassengerList = generateRiders(uniqueID, inputPassengers);
-        buses.put(uniqueID, new Bus(uniqueID, inputRoute, inputLocation, inputPassengerList, inputCapacity, inputSpeed));
+        //ArrayList<Rider> inputPassengerList = generateRiders(uniqueID, inputPassengers, 0);
+        buses.put(uniqueID, new Bus(uniqueID, inputRoute, inputLocation, inputCapacity, inputSpeed));
         return uniqueID;
     }
     
-    public int makeTrain(int uniqueID, int inputRoute, int inputLocation, int inputPassengers, int inputCapacity, int inputSpeed) {
+    public int makeTrain(int uniqueID, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
         // int uniqueID = buses.size();
-        ArrayList<Rider> inputPassengerList = generateRiders(uniqueID, inputPassengers);
-        trains.put(uniqueID, new Train(uniqueID, inputRoute, inputLocation, inputPassengerList, inputCapacity, inputSpeed));
+        //ArrayList<Rider> inputPassengerList = generateRiders(uniqueID, inputPassengers, 0);
+        trains.put(uniqueID, new Train(uniqueID, inputRoute, inputLocation, inputCapacity, inputSpeed));
         return uniqueID;
     }
     
-    public void setRoadCondition(int busRouteID, int stopID1, int stopID2, Double distance, int lowestSpeed, int averageSpeed, int maxSpeed) {
+    public void setRoadCondition(int busRouteID, int stopID1, int stopID2, double distance, double lowestSpeed, double averageSpeed, double maxSpeed) {
         BusRoute busRoute = getBusRoute(busRouteID);
         RoadCondition roadCondition = new RoadCondition(distance, lowestSpeed, averageSpeed, maxSpeed);
         busRoute.addRoadCondition(roadCondition, stopID1, stopID2);
@@ -91,11 +96,37 @@ public class TransitionSystem {
         railRoute.addStopDistance(stopID1, stopID2, distance);
     }
 
-    public void appendStopToBusRoute(int routeID, int nextStopID) { busRoutes.get(routeID).addNewStop(nextStopID); }
     
-    public void appendStopToRailRoute(int routeID, int nextStopID) { railRoutes.get(routeID).addNewStop(nextStopID); }
-
-
+    public void appendStopToBusRoute(int routeID, int nextStopID) { 
+        busRoutes.get(routeID).addNewStop(nextStopID); 
+    }
+    
+    public void appendStopToRailRoute(int routeID, int nextStopID) { 
+        railRoutes.get(routeID).addNewStop(nextStopID);                
+    }
+    
+    public void addRiderToBus(int busID, int riderNumber) {
+        Bus bus = buses.get(busID);
+        BusRoute busRoute = busRoutes.get(bus.getRouteID());
+        int stopID = busRoute.getStopID(bus.getLocation());
+        ArrayList<Rider> inputPassengerList = generateRiders(stopID, riderNumber, 0);
+        bus.addNewPassengers(inputPassengerList);
+    }
+    
+    public void addRiderToTrain(int trainID, int riderNumber) {
+        Train train = trains.get(trainID);
+        RailRoute railRoute = railRoutes.get(train.getRouteID());
+        int stopID = railRoute.getStopID(train.getLocation());
+        ArrayList<Rider> inputPassengerList = generateRiders(stopID, riderNumber, 0);
+        train.addNewPassengers(inputPassengerList);
+    }
+    
+    public void addRiderToStop(int stopID, int riderNumber) {
+        Stop stop = stops.get(stopID);
+        ArrayList<Rider> inputPassengerList = generateRiders(stopID, riderNumber, 0);
+        stop.addNewRiders(inputPassengerList);
+    }
+    
     public HashMap<Integer, Stop> getStops() { return stops; }
 
     public HashMap<Integer, BusRoute> getBusRoutes() { return busRoutes; }
@@ -105,22 +136,149 @@ public class TransitionSystem {
     public HashMap<Integer, RailRoute> getRailRoutes() { return railRoutes; }
 
     public HashMap<Integer, Train> getTrains() { return trains; }
+        
+    private void addRouteToRoutsOnStop(MiniPair stopPair, int routeId) {
+        if (routesOnStop.containsKey(stopPair)) {
+            ArrayList<Integer> routesList = routesOnStop.get(stopPair);
+            if (!routesList.contains(routeId)) {
+                routesList.add(routeId);
+            }
+        } else {
+            ArrayList<Integer> routesList = new ArrayList<Integer>();
+            routesList.add(routeId);
+            routesOnStop.put(stopPair, routesList);
+        }
+    }
     
-    public ArrayList<Rider> generateRiders(int stopID, int inputNumbers) {
-        ArrayList<Rider> riderList = new ArrayList<Rider>();        
-        return riders;
+    public void generateMap() {
+        int stopNumber = stops.size();
+        Digraph digraph = new Digraph(stopNumber);
+        
+        for (Integer busRouteID : busRoutes.keySet()) {
+            BusRoute busRoute = busRoutes.get(busRouteID);
+            int routeLength = busRoute.getLength();
+            for (int j = 0; j < routeLength - 1; j++) {
+                int stopID1 = busRoute.getStopID(j);
+                int stopID2 = busRoute.getStopID(j+1);
+                digraph.addEdge(stopID1, stopID2);    
+                MiniPair stopPair = new MiniPair(stopID1, stopID2);
+                addRouteToRoutsOnStop(stopPair, busRouteID);
+            }
+            addRouteToRoutsOnStop(
+                    new MiniPair(busRoute.getStopID(routeLength-1), busRoute.getStopID(0)),
+                    busRouteID);
+            digraph.addEdge(busRoute.getStopID(routeLength-1), busRoute.getStopID(0));
+        }       
+        for (Integer railRouteID : railRoutes.keySet()) {
+            RailRoute railRoute = railRoutes.get(railRouteID);
+            int routeLength = railRoute.getLength();
+            for (int j = 0; j < routeLength - 1; j++) {
+                int stopID1 = railRoute.getStopID(j);
+                int stopID2 = railRoute.getStopID(j+1);
+                digraph.addEdge(stopID1, stopID2); 
+                MiniPair stopPair = new MiniPair(stopID1, stopID2);
+                addRouteToRoutsOnStop(stopPair, railRouteID);
+            }
+            addRouteToRoutsOnStop(
+                    new MiniPair(railRoute.getStopID(routeLength-1), railRoute.getStopID(0)),
+                    railRouteID);
+            digraph.addEdge(railRoute.getStopID(routeLength-1), railRoute.getStopID(0));
+        }
+        
+        digraph.BreadthFirstDirectedPaths();
+        
+        for (Integer stopID : stops.keySet()) {
+            ArrayList<ArrayList<HashMap<Integer, ArrayList<Integer>>>> paths = new ArrayList<ArrayList<HashMap<Integer, ArrayList<Integer>>>>();            
+            shortestPaths.put(stopID, paths);
+            for (Integer otherStopID : stops.keySet()) {
+                if (stopID == otherStopID) {
+                    continue;
+                } else {
+                    if (digraph.hasPathTo(stopID, otherStopID)) {
+                        Stack<Integer> shortestPath = (Stack<Integer>)digraph.pathTo(stopID, otherStopID);  
+                        ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList = generateDestinationList(shortestPath);
+                        paths.add(destinationList);                       
+                    }
+                }
+            }
+        }
+    }
+    
+    private ArrayList<HashMap<Integer, ArrayList<Integer>>> generateDestinationList(Stack<Integer> shortestPath) {
+        ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList = new ArrayList<HashMap<Integer, ArrayList<Integer>>>();    
+        int exchangeStopID = shortestPath.get(shortestPath.size() - 1);
+        int exchangeStopNextID = shortestPath.get(shortestPath.size() - 2);
+        MiniPair exchangeStopPair = new MiniPair(exchangeStopID, exchangeStopNextID);
+        //System.out.println(String.format("Looking for %d,%d, %d", exchangeStopPair.getID(), exchangeStopPair.getValue(), exchangeStopPair.hashCode()));
+        //System.out.println(routesOnStop.containsKey(exchangeStopPair));
+        ArrayList<Integer> exchangeStopRouteList = routesOnStop.get(exchangeStopPair);
+
+        
+        for (int i = shortestPath.size() - 2; i > 0; i--) {
+            int currentStopID = shortestPath.get(i);
+            int currentStopNextID = shortestPath.get(i - 1);
+            MiniPair currentStopPair = new MiniPair(currentStopID, currentStopNextID);
+            ArrayList<Integer> currentStopRouteList = routesOnStop.get(currentStopPair);
+            ArrayList<Integer> routeList = new ArrayList<Integer>();
+            // use set to do the intersection            
+            for (Integer routeID : exchangeStopRouteList) {                  
+                if (currentStopRouteList.contains(routeID)) {                      
+                    routeList.add(routeID);
+                } 
+            }
+            if (routeList.isEmpty()) {
+                HashMap<Integer, ArrayList<Integer>> stopRouteList = new HashMap<Integer, ArrayList<Integer>>();   
+                stopRouteList.put(exchangeStopID, exchangeStopRouteList);
+                destinationList.add(stopRouteList);
+                exchangeStopID = currentStopID;
+                exchangeStopRouteList = currentStopRouteList;               
+            } else {
+                exchangeStopRouteList = routeList;
+            }            
+        }
+        HashMap<Integer, ArrayList<Integer>> stopRouteList1 = new HashMap<Integer, ArrayList<Integer>>();   
+        stopRouteList1.put(exchangeStopID, exchangeStopRouteList);
+        destinationList.add(stopRouteList1);
+        
+        HashMap<Integer, ArrayList<Integer>> stopRouteList2 = new HashMap<Integer, ArrayList<Integer>>();           
+        ArrayList<Integer> finalStopRoute = new ArrayList<Integer>();
+        int finalStopID = shortestPath.get(0);
+        stopRouteList2.put(finalStopID, finalStopRoute);
+        destinationList.add(stopRouteList2);
+        
+        return destinationList;
+    }
+         
+    public ArrayList<Rider> generateRiders(int stopID, int inputNumbers, int eventTime) {
+        ArrayList<Rider> riderList = new ArrayList<Rider>(); 
+        ArrayList<ArrayList<HashMap<Integer, ArrayList<Integer>>>> paths = shortestPaths.get(stopID);
+        int pathsNumber = paths.size();
+        for (int i = 0; i < inputNumbers; i++) {
+            int randomNumber = (int) (Math.random()*pathsNumber);
+            ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList = paths.get(randomNumber);    
+            /*
+            System.out.println("New rider generated");
+            for(HashMap<Integer, ArrayList<Integer>> x : destinationList) {
+                int stop = x.keySet().iterator().next();
+                System.out.println("Stop: " + stop + ", routes=" + x.get(stop));
+            }
+            */
+            Rider rider = new Rider(destinationList, eventTime);
+            riderList.add(rider);
+        }        
+        return riderList;
     }
   
     
     public void displayModel() {
-        ArrayList<MiniPair> busNodes, stopNodes;
-        MiniPairComparator compareEngine = new MiniPairComparator();
-        
-        int[] colorScale = new int[] {9, 29, 69, 89, 101};
-        String[] colorName = new String[] {"#000077", "#0000FF", "#000000", "#770000", "#FF0000"};
-        Integer colorSelector, colorCount, colorTotal;
-        
-        try{
+    	ArrayList<MiniPair> busNodes, trainNodes, stopNodes;
+    	MiniPairComparator compareEngine = new MiniPairComparator();
+    	
+    	int[] colorScale = new int[] {9, 29, 69, 89, 101};
+    	String[] colorName = new String[] {"#000077", "#0000FF", "#000000", "#770000", "#FF0000"};
+    	Integer colorSelector, colorCount, colorTotal;
+    	
+    	try{
             // create new file access path
             String path="./mts_digraph.dot";
             File file = new File(path);
@@ -133,46 +291,70 @@ public class TransitionSystem {
             
             bw.write("digraph G\n");
             bw.write("{\n");
-        
+    	
             busNodes = new ArrayList<MiniPair>();
-            for (Bus b: buses.values()) { busNodes.add(new MiniPair(b.getID(), b.getPassengers())); }
+            trainNodes = new ArrayList<MiniPair>();
+            for (Bus b: buses.values()) { 
+                busNodes.add(new MiniPair(b.getID(), b.getPassengers().size()));
+            }
+            for (Train b: trains.values()) { 
+                trainNodes.add(new MiniPair(b.getID(), b.getPassengers().size())); 
+            }
             Collections.sort(busNodes, compareEngine);
+            Collections.sort(trainNodes, compareEngine);
 
             colorSelector = 0;
             colorCount = 0;
-            colorTotal = busNodes.size();
+            colorTotal = busNodes.size() + trainNodes.size();
             for (MiniPair c: busNodes) {
-                if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { colorSelector++; }
-                bw.write("  bus" + c.getID() + " [ label=\"bus#" + c.getID() + " | " + c.getValue() + " riding\", color=\"" + colorName[colorSelector] + "\"];\n");
+            	    if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { 
+            	        colorSelector++; 
+            	    }
+            	    bw.write("  bus" + c.getID() + " [ label=\"bus#" + c.getID() + " | " + c.getValue() + " riding\", color=\"" + colorName[colorSelector] + "\"];\n");
+            }
+            bw.newLine();
+            for (MiniPair c: trainNodes) {
+                if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { 
+                    colorSelector++; 
+                }
+                bw.write("  train" + c.getID() + " [ label=\"train#" + c.getID() + " | " + c.getValue() + " riding\", color=\"" + colorName[colorSelector] + "\"];\n");
             }
             bw.newLine();
             
             stopNodes = new ArrayList<MiniPair>();
-            for (BusStop s: stops.values()) { stopNodes.add(new MiniPair(s.getID(), s.getWaiting())); }
+            for (Stop s: stops.values()) { stopNodes.add(new MiniPair(s.getID(), s.getWaiting().size())); }
             Collections.sort(stopNodes, compareEngine);
 
             colorSelector = 0;
             colorCount = 0;
-            colorTotal = stopNodes.size();      
+            colorTotal = stopNodes.size();    	
             for (MiniPair t: stopNodes) {
-                if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { colorSelector++; }
-                bw.write("  stop" + t.getID() + " [ label=\"stop#" + t.getID() + " | " + t.getValue() + " waiting\", color=\"" + colorName[colorSelector] + "\"];\n");
+            	if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { colorSelector++; }
+            	bw.write("  stop" + t.getID() + " [ label=\"stop#" + t.getID() + " | " + t.getValue() + " waiting\", color=\"" + colorName[colorSelector] + "\"];\n");
             }
             bw.newLine();
             
             for (Bus m: buses.values()) {
-                Integer prevStop = routes.get(m.getRouteID()).getStopID(m.getPastLocation());
-                Integer nextStop = routes.get(m.getRouteID()).getStopID(m.getLocation());
-                bw.write("  stop" + Integer.toString(prevStop) + " -> bus" + Integer.toString(m.getID()) + " [ label=\" dep\" ];\n");
-                bw.write("  bus" + Integer.toString(m.getID()) + " -> stop" + Integer.toString(nextStop) + " [ label=\" arr\" ];\n");
+            	Integer prevStop = busRoutes.get(m.getRouteID()).getStopID(m.getPastLocation());
+            	Integer nextStop = busRoutes.get(m.getRouteID()).getStopID(m.getLocation());
+            	bw.write("  stop" + Integer.toString(prevStop) + " -> bus" + Integer.toString(m.getID()) + " [ label=\" dep\" ];\n");
+            	bw.write("  bus" + Integer.toString(m.getID()) + " -> stop" + Integer.toString(nextStop) + " [ label=\" arr\" ];\n");
+            }
+    	
+            bw.write("}\n");
+            
+            for (Train m: trains.values()) {
+                Integer prevStop = railRoutes.get(m.getRouteID()).getStopID(m.getPastLocation());
+                Integer nextStop = railRoutes.get(m.getRouteID()).getStopID(m.getLocation());
+                bw.write("  stop" + Integer.toString(prevStop) + " -> train" + Integer.toString(m.getID()) + " [ label=\" dep\" ];\n");
+                bw.write("  train" + Integer.toString(m.getID()) + " -> stop" + Integer.toString(nextStop) + " [ label=\" arr\" ];\n");
             }
         
             bw.write("}\n");
             bw.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    	} catch (Exception e) {
+    		System.out.println(e);
+    	}
     }
-
-
 }
+    

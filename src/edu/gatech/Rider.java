@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Rider {
-    private HashMap<Integer, ArrayList<Integer>> stopList;
+    private ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList;
     private Integer startTime;
     private Integer arriveStopTime;
     private Integer onBoardTime;
@@ -13,7 +13,7 @@ public class Rider {
     
     
     public Rider() {
-        this.stopList = new HashMap<Integer, ArrayList<Integer>>();
+        this.destinationList = new ArrayList<HashMap<Integer, ArrayList<Integer>>>();
         this.startTime = 0;
         this.arriveStopTime = 0;
         this.onBoardTime = 0;
@@ -22,8 +22,8 @@ public class Rider {
         this.currentRouteID = -1;
     }
 
-    public Rider(HashMap<Integer, ArrayList<Integer>> stops, int eventStartTime) {
-        this.stopList = stops;
+    public Rider(ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList, int eventStartTime) {
+        this.destinationList = destinationList;
         this.startTime = eventStartTime;
         this.arriveStopTime = 0;
         this.onBoardTime = eventStartTime;
@@ -32,13 +32,13 @@ public class Rider {
         this.currentRouteID = -1;
    }
     
-   public HashMap<Integer, ArrayList<Integer>> getStopList() {
-       return this.stopList;
+   public ArrayList<HashMap<Integer, ArrayList<Integer>>> getDestinationList() {
+       return this.destinationList;
    }
    
    public void boardingVehicle(int routeID, int eventTime) {
        currentRouteID = routeID;
-       stopList.get(routeID).remove(0);
+       destinationList.remove(0);
        onBoardTime = eventTime;
        waitTime = eventTime - startTime;
    }
@@ -50,11 +50,23 @@ public class Rider {
    }
    
    public boolean arriveAtDestination() {
-       if (stopList.get(currentRouteID).size() == 1) {
+       if (destinationList.size() == 1) {
            return true;
        } else {
            return false;
        }
+   }
+   
+   @Override
+   public String toString() {
+       StringBuilder str = new StringBuilder("(");
+       
+       for(HashMap<Integer, ArrayList<Integer>> x : destinationList) {
+           int stop = x.keySet().iterator().next();
+           str.append("Stop: " + stop + ", routes=" + x.get(stop) + "|");
+       }
+       str.append(")\n");
+       return str.toString();
    }
 
 }

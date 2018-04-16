@@ -10,6 +10,7 @@ public class Stop {
     private Double xCoord;
     private Double yCoord;
     private Random randGenerator;
+    private HashMap<Integer, int[]> rateWaiting;
     private ArrayList<Rider> waiting;
 
     public Stop() {
@@ -21,17 +22,19 @@ public class Stop {
         this.stopName = "";
         this.xCoord = 0.0;
         this.yCoord = 0.0;
-        randGenerator = new Random();
+        this.randGenerator = new Random();
         this.waiting = new ArrayList<Rider>();
+        this.rateWaiting = new HashMap<Integer, int[]>();
     }
 
-    public Stop(int uniqueValue, String inputName, ArrayList<Rider> inputRiderList, double inputXCoord, double inputYCoord) {
+    public Stop(int uniqueValue, String inputName, double inputXCoord, double inputYCoord) {
         this.ID = uniqueValue;
         this.stopName = inputName;
         this.xCoord = inputXCoord;
         this.yCoord = inputYCoord;
-        randGenerator = new Random();
-        this.waiting = inputRiderList;
+        this.randGenerator = new Random();
+        this.waiting = new ArrayList<Rider>();
+        this.rateWaiting = new HashMap<Integer, int[]>();
    }
 
     public void setName(String inputName) { this.stopName = inputName; }
@@ -65,36 +68,44 @@ public class Stop {
         ArrayList<Rider> boardingList = new ArrayList<Rider>();
         int seats = availableSeats;
         for (Rider rider : this.waiting) {
-            if (rider.getStopList().containsKey(routeID)) {
-                rider.boardingVehicle(routeID, rank);
+            int key = rider.getDestinationList().get(0).keySet().iterator().next();
+            ArrayList<Integer> routeList = rider.getDestinationList().get(0).get(key);
+            if (routeList.contains(routeID)) {               
                 if (seats > 0) {
+                    rider.boardingVehicle(routeID, rank);
                     boardingList.add(rider);
-                    this.waiting.remove(rider);
+                    //this.waiting.remove(rider);
                     seats--;
                 } else {
                     break;
                 }
             }
         }
+        this.waiting.removeAll(boardingList);
         this.waiting.addAll(arrivingPassengers);
         return boardingList;        
     }
         
     public void addNewRiders(ArrayList<Rider> moreRiders) { waiting.addAll(moreRiders); }
     
-    public Integer getIntendedNewRiders() {
-        
+    public Integer getIntendedNewRiders(int eventTime) {
+        int[] waitingNumber = rateWaiting.get(eventTime); 
+        int newRiderNumber = 0;
+        if (waitingNumber != null) {
+            newRiderNumber = randomBiasedValue(waitingNumber[0], waitingNumber[1], waitingNumber[2]);
+        } else {
+            newRiderNumber = (int) (Math.random() * 5);
+        }
+        return newRiderNumber;
     }
 
     public void displayInternalStatus() {
         System.out.print("> stop - ID: " + Integer.toString(ID));
-        System.out.print(" name: " + stopName + " waiting: " + Integer.toString(waiting));
-        System.out.println(" xCoord: " + Double.toString(xCoord) + " yCoord: " + Double.toString(yCoord));
+        System.out.print(" name: " + stopName + " waiting: " + Integer.toString(waiting.size()));
     }
 
-    public void addArrivalInfo(int timeSlot, int minOn, int avgOn, int maxOn) {
-        rateCatchingBus.put(timeSlot, new int[]{minOn, avgOn, maxOn});
-        rateLeavingBus.put(timeSlot, new int[]{minOff, avgOff, maxOff});
+    public void addArrivalInfo(int timeSlot, int minWaiting, int avgWaiting, int maxWaiting) {
+        rateWaiting.put(timeSlot, new int[]{minWaiting, avgWaiting, maxWaiting});
     }
 
     private int randomBiasedValue(int lower, int middle, int upper) {
@@ -110,7 +121,7 @@ public class Stop {
         if (object == null || object.getClass() != getClass()) {
             result = false;
         } else {
-            BusStop me = (BusStop) object;
+            Stop me = (Stop) object;
             if (this.ID == me.getID()) {
                 result = true;
             }

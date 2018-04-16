@@ -9,7 +9,7 @@ public class Bus {
     private Integer prevLocation;
     private ArrayList<Rider> passengers;
     private Integer capacity;
-    private Integer speed; // given in statute miles per hour
+    private double speed; // given in statute miles per hour
 
     public Bus() {
         this.ID = -1;
@@ -25,12 +25,12 @@ public class Bus {
         this.speed = -1;
     }
 
-    public Bus(int uniqueValue, int inputRoute, int inputLocation, ArrayList<Rider> inputPassengerList, int inputCapacity, int inputSpeed) {
+    public Bus(int uniqueValue, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
         this.ID = uniqueValue;
         this.route = inputRoute;
         this.nextLocation = inputLocation;
         this.prevLocation = inputLocation;
-        this.passengers = inputPassengerList;
+        this.passengers = new ArrayList<Rider>();
         this.capacity = inputCapacity;
         this.speed = inputSpeed;
    }
@@ -60,7 +60,7 @@ public class Bus {
 
     public Integer getCapacity() { return this.capacity; }
 
-    public Integer getSpeed() { return this.speed; }
+    public double getSpeed() { return this.speed; }
 
     public void displayEvent() {
         System.out.println(" bus: " + Integer.toString(this.ID));
@@ -70,7 +70,7 @@ public class Bus {
         System.out.print("> bus - ID: " + Integer.toString(ID) + " route: " + Integer.toString(route));
         System.out.print(" location from: " + Integer.toString(prevLocation) + " to: " + Integer.toString(nextLocation));
         System.out.print(" passengers: " + Integer.toString(passengers.size()) + " capacity: " + Integer.toString(capacity));
-        System.out.println(" speed: " + Integer.toString(speed));
+        System.out.println(" speed: " + Double.toString(speed));
     }
 
     public void takeTurn() {
@@ -79,18 +79,17 @@ public class Bus {
 
     public ArrayList<Rider> passengersLeave(int stopID, int eventTime) { 
         ArrayList<Rider> exchangeList = new ArrayList<Rider>();
+        ArrayList<Rider> deboardList = new ArrayList<>();
         for (Rider passenger : passengers) {
-            
-            if (passenger.getStopList().get(this.route).get(0) == stopID) {
+            if (passenger.getDestinationList().get(0).keySet().iterator().next() == stopID) {
                 passenger.arriveAtStop(stopID, eventTime);
-                if (passenger.arriveAtDestination()) {
-                    passengers.remove(passenger);
-                } else {
+                if (!passenger.arriveAtDestination()) {
                     exchangeList.add(passenger);
-                    passengers.remove(passenger);                   
                 }
+                deboardList.add(passenger);
             }
         }
+        passengers.removeAll(deboardList);
         return exchangeList;
     }
     

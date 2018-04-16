@@ -34,17 +34,21 @@ public class SimQueue {
                     System.out.println(" the bus is currently at stop: " + Integer.toString(activeStop.getID()) + " - " + activeStop.getName());
                     
                     // generate and add new riders to active stop
-                    int newRiderNumber = activeStop.getIntendedNewRiders();
-                    ArrayList<Rider> newRiderList = busModel.generateRiders(activeStopID, newRiderNumber);
+                    int newRiderNumber = activeStop.getIntendedNewRiders(activeEvent.getRank());
+                    ArrayList<Rider> newRiderList = busModel.generateRiders(activeStopID, newRiderNumber, activeEvent.getRank());
+                    System.out.println("New riders:\n" + newRiderList);
                     activeStop.addNewRiders(newRiderList);
+                    System.out.println("Waiting:\n" + activeStop.getWaiting());
 
                     // drop off passengers at current stop
                     int preStopPassengers = activeBus.getPassengers().size();
                     ArrayList<Rider> arrivingPassengerList = activeBus.passengersLeave(activeStopID, activeEvent.getRank());
+                    System.out.println("Arriving riders:\n" + arrivingPassengerList);
                     
                     // exchange riders in active stop: riders leave stop for boarding and passengers add to stop waiting list
                     int availableSeats = activeBus.getCapacity() - activeBus.getPassengers().size();
                     ArrayList<Rider> boardingPassengerList = activeStop.exchangeRiders(activeEvent.getRank(), availableSeats, activeBus.getRouteID(), arrivingPassengerList);
+                    System.out.println("Boarding riders:\n" + boardingPassengerList);
                     
                     // add new passengers to active bus
                     activeBus.addNewPassengers(boardingPassengerList);
@@ -59,12 +63,15 @@ public class SimQueue {
                     System.out.println(" the bus is heading to stop: " + Integer.toString(nextStopID) + " - " + nextStop.getName() + "\n");
                     
                    // get road condition 
-                    RoadCondition roadConditon = activeRoute.getRoadCondition(activeStopID, nextStopID); 
+                    RoadCondition roadCondition = activeRoute.getRoadCondition(activeStopID, nextStopID); 
+                    if (roadCondition == null) {
+                        System.out.println(String.format("Error: no road condition found! %d, %d", activeStopID, nextStopID));
+                    }
                     
                     // get speed and distance between two stops
-                    int roadSpeed = roadCondition.getSpeed();
-                    Double distance = roadCondition.getDistance();
-                    int travelSpeed;
+                    double roadSpeed = roadCondition.getSpeed();
+                    double distance = roadCondition.getDistance();
+                    double travelSpeed;
                     if (activeBus.getSpeed() < roadSpeed) {
                         travelSpeed = activeBus.getSpeed();
                     } else {
@@ -72,7 +79,7 @@ public class SimQueue {
                     }
                     
                     // determine next event time and set bus location as next location
-                    int travelTime = 1 + (distance.intValue() * 60 / travelSpeed);             
+                    int travelTime = 1 + (int)(distance * 60 / travelSpeed);             
                     activeBus.setLocation(nextLocation);
 
                     // generate next event for this bus
@@ -94,8 +101,8 @@ public class SimQueue {
                     System.out.println(" the train is currently at stop: " + Integer.toString(activeRailStop.getID()) + " - " + activeRailStop.getName());
                     
                     // generate and add new riders to active stop
-                    int newStopRiderNumber = activeRailStop.getIntendedNewRiders();
-                    ArrayList<Rider> newStopRiderList = busModel.generateRiders(activeRailStopID, newStopRiderNumber);
+                    int newStopRiderNumber = activeRailStop.getIntendedNewRiders(activeEvent.getRank());
+                    ArrayList<Rider> newStopRiderList = busModel.generateRiders(activeRailStopID, newStopRiderNumber, activeEvent.getRank());
                     activeRailStop.addNewRiders(newStopRiderList);
 
                     // drop off passengers at current stop
@@ -120,10 +127,10 @@ public class SimQueue {
                     
                     // get distance between two stops and train speed
                     Double railStopDistance = activeRailRoute.getStopDistance(activeRailStopID, nextRailStopID);
-                    int trainSpeed = activeTrain.getSpeed();
+                    double trainSpeed = activeTrain.getSpeed();
                     
                     // determine next event time and set train location as next location
-                    int trainTravelTime = 1 + (railStopDistance.intValue() * 60 / trainSpeed);             
+                    int trainTravelTime = 1 + (int)(railStopDistance * 60 / trainSpeed);             
                     activeTrain.setLocation(nextTrainLocation);
 
                     // generate next event for this bus
@@ -142,4 +149,5 @@ public class SimQueue {
     public void addNewEvent(Integer eventRank, String eventType, Integer eventID) {
         eventQueue.add(new SimEvent(eventRank, eventType, eventID));
     }
+
 }
