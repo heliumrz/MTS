@@ -283,7 +283,6 @@ public class TransitionSystem {
     	MiniPairComparator compareEngine = new MiniPairComparator();
     	
     	int[] colorScale = new int[] {9, 29, 69, 89, 101};
-    	String[] colorName = new String[] {"#000077", "#0000FF", "#000000", "#770000", "#FF0000"};
     	Integer colorSelector, colorCount, colorTotal;
     	
     	try{
@@ -318,14 +317,18 @@ public class TransitionSystem {
             	    if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { 
             	        colorSelector++; 
             	    }
-            	    bw.write("  bus" + c.getID() + " [ label=\"bus#" + c.getID() + " | " + c.getValue() + " riding\", color=\"" + colorName[colorSelector] + "\"];\n");
+            	    Bus bus = buses.get(c.getID());
+            	    int capacity = bus.getCapacity();
+            	    bw.write("  bus" + c.getID() + " [ label=\"bus#" + c.getID() + " | " + c.getValue() + "/" + capacity + " riding\", shape=\"box\", color=\"" + "#0000cc" + "\"];\n");
             }
             bw.newLine();
             for (MiniPair c: trainNodes) {
                 if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { 
                     colorSelector++; 
                 }
-                bw.write("  train" + c.getID() + " [ label=\"train#" + c.getID() + " | " + c.getValue() + " riding\", color=\"" + colorName[colorSelector] + "\"];\n");
+                Train train = trains.get(c.getID());
+                int capacity = train.getCapacity();
+                bw.write("  train" + c.getID() + " [ label=\"train#" + c.getID() + " | " + c.getValue() + "/" + capacity + " riding\", shape=\"box\", color=\"" + "#ff0000" + "\"];\n");
             }
             bw.newLine();
             
@@ -338,7 +341,9 @@ public class TransitionSystem {
             colorTotal = stopNodes.size();    	
             for (MiniPair t: stopNodes) {
             	if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { colorSelector++; }
-            	bw.write("  stop" + t.getID() + " [ label=\"stop#" + t.getID() + " | " + t.getValue() + " waiting\", color=\"" + colorName[colorSelector] + "\"];\n");
+            	Stop stop = stops.get(t.getID());
+            	int waiting = stop.getAverageWaitingTime();
+            	bw.write("  stop" + t.getID() + " [ label=\"stop#" + t.getID() + " | " + t.getValue() + " waiting\n" + " Avg.waiting " + waiting + "min\", color=\"" +  "#000000"  + "\"];\n");
             }
             bw.newLine();
             
