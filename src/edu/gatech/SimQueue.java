@@ -1,8 +1,11 @@
 package edu.gatech;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.PriorityQueue;
 
 public class SimQueue {
     private static PriorityQueue<SimEvent> eventQueue;
@@ -70,7 +73,21 @@ public class SimQueue {
                     }
                     
                     // get speed and distance between two stops
-                    double roadSpeed = roadCondition.getSpeed();
+                    
+                    // User current time to calculate rushhour
+                    
+                    // rushhour is defined in RushHourChecker: 08:00-10:00 and 17:00-19:00
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                	Date date = new Date();
+                    double roadSpeed = roadCondition.getSpeed(date);
+                    
+                    // use date str
+                 	// String dateStr = "08:00";
+                    //  double roadSpeed = roadCondition.getSpeed(dateStr);
+                  
+                    // Without considering of rushhour                    
+                    //double roadSpeed = roadCondition.getSpeed();
+                    
                     double distance = roadCondition.getDistance();
                     double travelSpeed;
                     if (activeBus.getSpeed() < roadSpeed) {

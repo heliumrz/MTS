@@ -1,0 +1,23 @@
+digraph G
+{
+  bus0 [ label="bus#0 | 2 riding", color="#000077"];
+  bus1 [ label="bus#1 | 10 riding", color="#0000FF"];
+
+  train2 [ label="train#2 | 14 riding", color="#000000"];
+
+  stop0 [ label="stop#0 | 0 waiting", color="#000077"];
+  stop2 [ label="stop#2 | 0 waiting", color="#0000FF"];
+  stop3 [ label="stop#3 | 0 waiting", color="#0000FF"];
+  stop5 [ label="stop#5 | 0 waiting", color="#000000"];
+  stop6 [ label="stop#6 | 0 waiting", color="#000000"];
+  stop7 [ label="stop#7 | 0 waiting", color="#000000"];
+  stop1 [ label="stop#1 | 6 waiting", color="#770000"];
+  stop4 [ label="stop#4 | 10 waiting", color="#770000"];
+
+  stop1 -> bus0 [ label=" dep" ];
+  bus0 -> stop2 [ label=" arr" ];
+  stop4 -> bus1 [ label=" dep" ];
+  bus1 -> stop5 [ label=" arr" ];
+  stop6 -> train2 [ label=" dep" ];
+  train2 -> stop7 [ label=" arr" ];
+}

@@ -1,5 +1,6 @@
 package edu.gatech;
 
+import java.util.Date;
 import java.util.Random;
 
 class RandomSpeedGenerator {
@@ -13,6 +14,26 @@ class RandomSpeedGenerator {
 		double random = new Random().nextDouble();
 		double speed = speedLowest + (rand.nextDouble() * (speedMax - speedLowest));
 		return speed;
+	}
+	
+	public double getRandomSpeed(double speedLowest, double speedAve, double speedMax, String dateStr) {
+		double random = new Random().nextDouble();
+		double speed = speedLowest + (rand.nextDouble() * (speedMax - speedLowest));
+		if(RushHourChecker.getInstance().isRushHour(dateStr)) {
+			return speed / 2.0;
+		} else {
+			return speed;
+		}
+	}
+	
+	public double getRandomSpeed(double speedLowest, double speedAve, double speedMax, Date date) {
+		double random = new Random().nextDouble();
+		double speed = speedLowest + (rand.nextDouble() * (speedMax - speedLowest));
+		if(RushHourChecker.getInstance().isRushHour(date)) {
+			return speed / 2.0;
+		} else {
+			return speed;
+		}
 	}
 	public static RandomSpeedGenerator getInstance() {
 		if (instance == null) {
@@ -70,5 +91,13 @@ public class RoadCondition {
 
 	public double getSpeed() {
 		return RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax);
+	}
+	
+	public double getSpeed(Date date) {
+		return RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax, date);
+	}
+	
+	public double getSpeed(String dateStr) {
+		return RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax, dateStr);
 	}
 }
