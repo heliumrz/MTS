@@ -1,11 +1,11 @@
-add_stop,0,Appleville,0.0,0.08,5
-add_stop,1,Banana Bayou,0.04,0.1,5
-add_stop,2,Star City,0.08,0.16,5
-add_stop,3,Cherry City,0.16,0.1,10
+add_stop,0,Appleville,0.0,0.08,2
+add_stop,1,Banana Bayou,0.04,0.1,7
+add_stop,2,Star City,0.08,0.16,3
+add_stop,3,Cherry City,0.16,0.1,5
 add_stop,4,West Side,0.01,0.01,6
-add_stop,5,South Side,0.04,0.01,4
-add_stop,6,East Side,0.1,0.02,5
-add_stop,7,Central City,0.04,0.05,8
+add_stop,5,South Side,0.04,0.01,3
+add_stop,6,East Side,0.1,0.02,2
+add_stop,7,Central City,0.04,0.05,2
 add_bus_route,0,10,Express
 add_bus_route,1,16,Perimeter
 add_rail_route,2,15,rail1
@@ -19,9 +19,9 @@ extend_rail_route,2,7
 extend_rail_route,2,1
 extend_rail_route,2,4
 extend_rail_route,2,6
-add_bus,0,0,0,10,50.00
-add_bus,1,1,0,10,30.00
-add_train,2,2,0,100,100.00
+add_bus,0,0,0,25,50.00
+add_bus,1,1,0,25,30.00
+add_train,2,2,0,200,100.00
 set_road_condition,0,0,1,1.20,10.00,40.00,60.00
 set_road_condition,0,1,2,1.20,10.00,40.00,60.00
 set_road_condition,0,2,0,3.60,10.00,40.00,60.00

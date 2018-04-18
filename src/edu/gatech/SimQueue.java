@@ -33,8 +33,8 @@ public class SimQueue {
                     Stop activeStop = busModel.getStop(activeStopID);
                     System.out.println(" the bus is currently at stop: " + Integer.toString(activeStop.getID()) + " - " + activeStop.getName());
                     
-                    // generate and add new riders to active stop
-                    int newRiderNumber = activeStop.getIntendedNewRiders(activeEvent.getRank());
+                    // generate add new riders to active stop
+                    int newRiderNumber = activeStop.getNewRiderNumber(activeEvent.getRank());
                     ArrayList<Rider> newRiderList = busModel.generateRiders(activeStopID, newRiderNumber, activeEvent.getRank());
                     System.out.println(" New riders:\n " + newRiderList);
                     activeStop.addNewRiders(newRiderList);
@@ -102,7 +102,7 @@ public class SimQueue {
                     System.out.println(" the train is currently at stop: " + Integer.toString(activeRailStop.getID()) + " - " + activeRailStop.getName());
                     
                     // generate and add new riders to active stop
-                    int newStopRiderNumber = activeRailStop.getIntendedNewRiders(activeEvent.getRank());
+                    int newStopRiderNumber = activeRailStop.getNewRiderNumber(activeEvent.getRank());
                     ArrayList<Rider> newStopRiderList = busModel.generateRiders(activeRailStopID, newStopRiderNumber, activeEvent.getRank());
                     System.out.println(" New riders:\n " + newStopRiderList);
                     activeRailStop.addNewRiders(newStopRiderList);
