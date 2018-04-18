@@ -71,7 +71,7 @@ public class BusRoute {
     }
 
     public void displayInternalStatus() {
-        System.out.print("> route - ID: " + Integer.toString(ID));
+        System.out.print("> bus route - ID: " + Integer.toString(ID));
         System.out.print(" number: " + Integer.toString(routeNumber) + " name: " + routeName);
         System.out.print(" stops: [ ");
         for (int i = 0; i < stopsOnRoute.size(); i++) {

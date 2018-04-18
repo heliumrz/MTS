@@ -1,5 +1,6 @@
 package edu.gatech;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Train {
     private Integer ID;
@@ -9,6 +10,7 @@ public class Train {
     private ArrayList<Rider> passengers;
     private Integer capacity;
     private double speed; // given in statute miles per hour
+    private HashMap<Integer, Integer> eventTimeStatus;
 
     public Train() {
         this.ID = -1;
@@ -22,6 +24,7 @@ public class Train {
         this.passengers = new ArrayList<Rider>();
         this.capacity = -1;
         this.speed = -1;
+        this.eventTimeStatus = new HashMap<>();
     }
 
     public Train(int uniqueValue, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
@@ -32,6 +35,7 @@ public class Train {
         this.passengers = new ArrayList<Rider>();
         this.capacity = inputCapacity;
         this.speed = inputSpeed;
+        this.eventTimeStatus = new HashMap<>();
    }
 
     public void setRoute(int inputRoute) { this.route = inputRoute; }
@@ -39,6 +43,10 @@ public class Train {
     public void setLocation(int inputLocation) {
         this.prevLocation = this.nextLocation;
         this.nextLocation = inputLocation;
+    }
+    
+    public HashMap<Integer, Integer> getEventTimeStatus() {        
+        return eventTimeStatus;
     }
 
     public void setPassengers(ArrayList<Rider> inputPassengerList) { this.passengers = inputPassengerList; }
@@ -79,6 +87,7 @@ public class Train {
     public ArrayList<Rider> passengersLeave(int stopID, int eventTime) { 
         ArrayList<Rider> exchangeList = new ArrayList<Rider>();
         ArrayList<Rider> deboardList = new ArrayList<>();
+        this.eventTimeStatus.put(eventTime, passengers.size());
         for (Rider passenger : passengers) {
             if (passenger.getDestinationList().get(0).keySet().iterator().next() == stopID) {
                 passenger.arriveAtStop(stopID, eventTime);

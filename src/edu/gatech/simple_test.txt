@@ -1,11 +1,11 @@
-add_stop,0,Appleville,0.0,0.08,10
-add_stop,1,Banana Bayou,0.04,0.1,20
-add_stop,2,Star City,0.08,0.16,10
-add_stop,3,Cherry City,0.16,0.1,30
-add_stop,4,West Side,0.01,0.01,20
-add_stop,5,South Side,0.04,0.01,10
-add_stop,6,East Side,0.1,0.02,80
-add_stop,7,Central City,0.04,0.05,20
+add_stop,0,Appleville,0.0,0.08,5
+add_stop,1,Banana Bayou,0.04,0.1,5
+add_stop,2,Star City,0.08,0.16,5
+add_stop,3,Cherry City,0.16,0.1,10
+add_stop,4,West Side,0.01,0.01,6
+add_stop,5,South Side,0.04,0.01,4
+add_stop,6,East Side,0.1,0.02,5
+add_stop,7,Central City,0.04,0.05,8
 add_bus_route,0,10,Express
 add_bus_route,1,16,Perimeter
 add_rail_route,2,15,rail1
@@ -36,7 +36,7 @@ generate_map
 add_event,0,move_bus,0
 add_event,0,move_bus,1
 add_event,0,move_train,2
-step_multi,1000,100,2,10
+step_multi,120,10,2,10
 system_report
 display_model
 quit

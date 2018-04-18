@@ -14,6 +14,7 @@ public class Stop {
     private HashMap<Integer, int[]> rateWaiting;
     private ArrayList<Rider> waiting;
     private Integer riderRandomNumber;
+    private HashMap<Integer, int[]> eventTimeStatus;
 
     public Stop() {
         this.ID = -1;
@@ -30,6 +31,7 @@ public class Stop {
         this.averageWaitingTime = 0;
         this.rateWaiting = new HashMap<Integer, int[]>();
         this.riderRandomNumber = 0;
+        this.eventTimeStatus = new HashMap<>();
     }
 
     public Stop(int uniqueValue, String inputName, double inputXCoord, double inputYCoord, int riderRandomNumber) {
@@ -41,6 +43,7 @@ public class Stop {
         this.waiting = new ArrayList<Rider>();
         this.rateWaiting = new HashMap<Integer, int[]>();
         this.riderRandomNumber = riderRandomNumber;
+        this.eventTimeStatus = new HashMap<>();
    }
 
     public void setName(String inputName) { this.stopName = inputName; }
@@ -81,8 +84,7 @@ public class Stop {
                 if (seats > 0) {
                     rider.boardingVehicle(routeID, rank);
                     waitingTime += rider.getWaitingTime();
-                    boardingList.add(rider);
-                    //this.waiting.remove(rider);
+                    boardingList.add(rider);                    
                     seats--;
                 } else {
                     break;
@@ -92,6 +94,11 @@ public class Stop {
         if (!boardingList.isEmpty()) {
             this.averageWaitingTime = waitingTime / boardingList.size();
         }
+        // save waiting time
+        int [] status = new int[2];
+        status[0] = waitingTime;
+        status[1] = boardingList.size();
+        this.eventTimeStatus.put(rank, status);
         this.waiting.removeAll(boardingList);
         this.waiting.addAll(arrivingPassengers);
         return boardingList;        
@@ -99,6 +106,10 @@ public class Stop {
         
     public Integer getAverageWaitingTime() {
         return this.averageWaitingTime;
+    }
+    
+    public HashMap<Integer, int[]> getEventTimeStatus() {
+        return this.eventTimeStatus;
     }
     
     public void addNewRiders(ArrayList<Rider> moreRiders) { waiting.addAll(moreRiders); }
@@ -109,9 +120,13 @@ public class Stop {
         if (waitingNumber != null) {
             newRiderNumber = randomBiasedValue(waitingNumber[0], waitingNumber[1], waitingNumber[2]);
         } else {
-            newRiderNumber = (int) (Math.random() * riderRandomNumber);
+            newRiderNumber = (int) (Math.random() * 3 + riderRandomNumber);
         }
-        return newRiderNumber;
+        if (((eventTime % 120) >= 40 && (eventTime % 120) <= 80)) {
+            return newRiderNumber*5;
+        } else {
+            return newRiderNumber;
+        }
     }
 
     public void displayInternalStatus() {

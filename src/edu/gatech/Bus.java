@@ -1,6 +1,7 @@
 package edu.gatech;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bus {
     private Integer ID;
@@ -10,6 +11,7 @@ public class Bus {
     private ArrayList<Rider> passengers;
     private Integer capacity;
     private double speed; // given in statute miles per hour
+    private HashMap<Integer, Integer> eventTimeStatus;
 
     public Bus() {
         this.ID = -1;
@@ -23,6 +25,7 @@ public class Bus {
         this.passengers = new ArrayList<Rider>();
         this.capacity = -1;
         this.speed = -1;
+        this.eventTimeStatus = new HashMap<>();
     }
 
     public Bus(int uniqueValue, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
@@ -33,9 +36,14 @@ public class Bus {
         this.passengers = new ArrayList<Rider>();
         this.capacity = inputCapacity;
         this.speed = inputSpeed;
+        this.eventTimeStatus = new HashMap<>();
    }
 
     public void setRoute(int inputRoute) { this.route = inputRoute; }
+    
+    public HashMap<Integer, Integer> getEventTimeStatus() {        
+        return eventTimeStatus;
+    }
 
     public void setLocation(int inputLocation) {
     	this.prevLocation = this.nextLocation;
@@ -80,6 +88,7 @@ public class Bus {
     public ArrayList<Rider> passengersLeave(int stopID, int eventTime) { 
         ArrayList<Rider> exchangeList = new ArrayList<Rider>();
         ArrayList<Rider> deboardList = new ArrayList<>();
+        this.eventTimeStatus.put(eventTime, passengers.size());
         for (Rider passenger : passengers) {
             if (passenger.getDestinationList().get(0).keySet().iterator().next() == stopID) {
                 passenger.arriveAtStop(stopID, eventTime);
@@ -94,7 +103,7 @@ public class Bus {
     }
     
     public void addNewPassengers(ArrayList<Rider> newRiderList) {
-        this.passengers.addAll(newRiderList);
+        this.passengers.addAll(newRiderList);       
     }
 
     //Override the equals method to compare the object

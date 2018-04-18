@@ -10,7 +10,6 @@ class RandomSpeedGenerator {
 	}
 
 	public double getRandomSpeed(double speedLowest, double speedAve, double speedMax) {
-		double random = new Random().nextDouble();
 		double speed = speedLowest + (rand.nextDouble() * (speedMax - speedLowest));
 		return speed;
 	}
@@ -68,7 +67,10 @@ public class RoadCondition {
 		this.distance = distance;
 	}
 
-	public double getSpeed() {
+	public double getSpeed(int eventTime) {
+	    if (((eventTime % 120) >= 40 && (eventTime % 120) <= 80)) {
+	        return (RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax)) / 2;
+	    }
 		return RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax);
 	}
 }

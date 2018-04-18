@@ -70,7 +70,7 @@ public class SimQueue {
                     }
                     
                     // get speed and distance between two stops
-                    double roadSpeed = roadCondition.getSpeed();
+                    double roadSpeed = roadCondition.getSpeed(activeEvent.getRank());
                     double distance = roadCondition.getDistance();
                     double travelSpeed;
                     if (activeBus.getSpeed() < roadSpeed) {

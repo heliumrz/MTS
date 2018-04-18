@@ -110,6 +110,7 @@ public class SimDriver {
                     for (BusRoute singleRoute: martaModel.getBusRoutes().values()) { singleRoute.displayInternalStatus(); }
                     for (Train singleTrain: martaModel.getTrains().values()) { singleTrain.displayInternalStatus(); }
                     for (RailRoute singleRoute: martaModel.getRailRoutes().values()) { singleRoute.displayInternalStatus(); }
+                    martaModel.finalReport();
                     break;
                 case "display_model":
                 	martaModel.displayModel();

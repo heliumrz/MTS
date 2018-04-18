@@ -60,7 +60,7 @@ public class RailRoute {
     public Integer getLength() { return this.stopsOnRoute.size(); }
 
     public void displayInternalStatus() {
-        System.out.print("> route - ID: " + Integer.toString(ID));
+        System.out.print("> rial route - ID: " + Integer.toString(ID));
         System.out.print(" number: " + Integer.toString(routeNumber) + " name: " + routeName);
         System.out.print(" stops: [ ");
         for (int i = 0; i < stopsOnRoute.size(); i++) {
