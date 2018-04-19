@@ -42,7 +42,7 @@ public class RailRoute {
     public String getName() { return this.routeName; }
 
     public void displayEvent() {
-        System.out.println(" bus route: " + Integer.toString(this.ID));
+        System.out.println(" rail route: " + Integer.toString(this.ID));
     }
 
     public void takeTurn() {
@@ -60,7 +60,7 @@ public class RailRoute {
     public Integer getLength() { return this.stopsOnRoute.size(); }
 
     public void displayInternalStatus() {
-        System.out.print("> rial route - ID: " + Integer.toString(ID));
+        System.out.print("> rail route - ID: " + Integer.toString(ID));
         System.out.print(" number: " + Integer.toString(routeNumber) + " name: " + routeName);
         System.out.print(" stops: [ ");
         for (int i = 0; i < stopsOnRoute.size(); i++) {

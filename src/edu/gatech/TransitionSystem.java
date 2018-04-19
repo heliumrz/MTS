@@ -286,17 +286,15 @@ public class TransitionSystem {
         int busCapacityRushHour = 0;
         int trainCapacityNormal = 0;
         int trainCapacityRushHour = 0;
-        int waitTimeNormal = 0;
-        int waitRiderNumberNormal = 0;
-        int waitTimeRushHour = 0;
-        int waitRiderNumberRushHour = 0;
-        int waitTimeAfterRh = 0;
-        int waitRiderAfterRh = 0;
+        int waitTimeNormalRider = 0;
+        int waitRiderNumberNormalRider = 0;
+        int waitTimeRushHourRider = 0;
+        int waitRiderNumberRushHourRider = 0;
 
         for (Bus bus: buses.values()) {
             HashMap<Integer, Integer> eventTimePassenger = bus.getEventTimeStatus();
             for (Integer time : eventTimePassenger.keySet()) {
-                if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
+                if (((time % 120) >= 40 && (time % 120) <= 80)) {
                     passengerSizeBusRushHour += eventTimePassenger.get(time);
                     busCapacityRushHour += bus.getCapacity();
                 } else {
@@ -304,12 +302,22 @@ public class TransitionSystem {
                     busCapacityNormal += bus.getCapacity();
                 }
             }
+            ArrayList<Rider> arrivingList = bus.getArrivingList();
+            for (Rider rider : arrivingList) {
+                if (((rider.getInitialTime() % 120) >= 40 && (rider.getInitialTime() % 120) <= 80)) {
+                    waitTimeRushHourRider += rider.getWaitingTime();
+                    waitRiderNumberRushHourRider++;                   
+                } else {
+                    waitTimeNormalRider += rider.getWaitingTime();
+                    waitRiderNumberNormalRider++;
+                }
+            }
         }
         
         for (Train train: trains.values()) {
             HashMap<Integer, Integer> eventTimePassenger = train.getEventTimeStatus();
             for (Integer time : eventTimePassenger.keySet()) {
-                if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
+                if (((time % 120) >= 40 && (time % 120) <= 80)) {
                     passengerSizeTrainRushHour += eventTimePassenger.get(time);
                     trainCapacityRushHour += train.getCapacity();
                 } else {
@@ -317,21 +325,14 @@ public class TransitionSystem {
                     trainCapacityNormal += train.getCapacity();
                 }
             }
-        }
-        
-        for (Stop stop : stops.values()) {
-            HashMap<Integer, int[]> eventTimeWaitRider = stop.getEventTimeStatus();
-            for (Integer time : eventTimeWaitRider.keySet()) {
-                if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
-                    waitTimeRushHour += eventTimeWaitRider.get(time)[0];
-                    waitRiderNumberRushHour += eventTimeWaitRider.get(time)[1];
+            ArrayList<Rider> arrivingList = train.getArrivingList();
+            for (Rider rider : arrivingList) {
+                if (((rider.getInitialTime() % 120) >= 40 && (rider.getInitialTime() % 120) <= 80)) {
+                    waitTimeRushHourRider += rider.getWaitingTime();
+                    waitRiderNumberRushHourRider++;                   
                 } else {
-                    if (((time % 240) >= 90 && (time % 240) <= 110) || ((time % 240) >= 190 && (time % 240) <= 210)) {
-                        waitTimeAfterRh += eventTimeWaitRider.get(time)[0];
-                        waitRiderAfterRh += eventTimeWaitRider.get(time)[1];
-                    }
-                    waitTimeNormal += eventTimeWaitRider.get(time)[0];
-                    waitRiderNumberNormal += eventTimeWaitRider.get(time)[1];
+                    waitTimeNormalRider += rider.getWaitingTime();
+                    waitRiderNumberNormalRider++;
                 }
             }
         }
@@ -345,10 +346,10 @@ public class TransitionSystem {
         int attendanceRateNormal = (passengerSizeBusNormal + passengerSizeTrainNormal)*100/(busCapacityNormal + trainCapacityNormal);
         int attendanceRateRushHour = (passengerSizeBusRushHour + passengerSizeTrainRushHour)*100/(busCapacityRushHour + trainCapacityRushHour);
         int attendanceRateAverage = (passengerSizeBusRushHour + passengerSizeBusNormal + passengerSizeTrainRushHour + passengerSizeTrainNormal)*100/(busCapacityRushHour + busCapacityNormal + trainCapacityRushHour + trainCapacityNormal);        
-        int waitingTimeNormal = waitTimeNormal/waitRiderNumberNormal;
-        int waitingTimeRushHour = waitTimeRushHour/waitRiderNumberRushHour;
-        int waitingTimeAverage = (waitTimeNormal + waitTimeRushHour)/(waitRiderNumberNormal + waitRiderNumberRushHour);
-        int waitingTimeAfterRh = waitTimeAfterRh/waitRiderAfterRh;
+        int waitingTimeNormalRider = waitTimeNormalRider/waitRiderNumberNormalRider;
+        int waitingTimeRushHourRider = waitTimeRushHourRider/waitRiderNumberRushHourRider;
+        int waitingTimeAverageRider = (waitTimeNormalRider + waitTimeRushHourRider)/(waitRiderNumberNormalRider + waitRiderNumberRushHourRider);
+      
         
         System.out.println("\n The bus attendance rate during ordinary time is: " + attendanceRateBusNormal + "%.\n");
         System.out.println(" The bus attendance rate during rush hour is: " + attendanceRateBusRushHour + "%.\n");
@@ -358,11 +359,11 @@ public class TransitionSystem {
         System.out.println(" The average train attendance rate is: " + attendanceRateTrainAverage + "%.\n");
         System.out.println(" The total vehicle attendance rate during ordinary time is: " + attendanceRateNormal + "%.\n");
         System.out.println(" The total vehicle attendance rate during rush hour is: " + attendanceRateRushHour + "%.\n");
-        System.out.println(" The average vehicle attendance rate is: " + attendanceRateAverage + "%.\n");
-        System.out.println(" The rider average waiting time during ordinary time is: " + waitingTimeNormal + " min.\n");
-        System.out.println(" The rider average waiting time during rush hour is: " + waitingTimeRushHour + " min.\n");
-        System.out.println(" The rider average waiting time two hours after rush hour is: " + waitingTimeAfterRh + " min.\n");
-        System.out.println(" The rider total average waiting time is: " + waitingTimeAverage + " min.\n");        
+        System.out.println(" The average vehicle attendance rate is: " + attendanceRateAverage + "%.\n");  
+        System.out.println(" The rider average waiting time during ordinary time is: " + waitingTimeNormalRider + " min.\n");
+        System.out.println(" The rider average waiting time during rush hour is: " + waitingTimeRushHourRider + " min.\n");
+        System.out.println(" The rider average waiting time is: " + waitingTimeAverageRider + " min.\n");
+        System.out.println(" The total transffered rider number is: " + (waitRiderNumberNormalRider + waitRiderNumberRushHourRider) + ".\n");       
     }
     
     public void displayModel() {

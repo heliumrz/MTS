@@ -121,7 +121,7 @@ public class Stop {
 
     public void displayInternalStatus() {
         System.out.print("> stop - ID: " + Integer.toString(ID));
-        System.out.print(" name: " + stopName + " waiting: " + Integer.toString(waiting.size()));
+        System.out.print(" name: " + stopName + " waiting: " + Integer.toString(waiting.size()) + "\n");
     }
 
     //Override the equals method to compare the object

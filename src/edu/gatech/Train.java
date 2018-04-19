@@ -11,6 +11,7 @@ public class Train {
     private Integer capacity;
     private double speed; // given in statute miles per hour
     private HashMap<Integer, Integer> eventTimeStatus;
+    private ArrayList<Rider> arrivingList;
 
     public Train() {
         this.ID = -1;
@@ -25,6 +26,7 @@ public class Train {
         this.capacity = -1;
         this.speed = -1;
         this.eventTimeStatus = new HashMap<>();
+        this.arrivingList = new ArrayList<>();
     }
 
     public Train(int uniqueValue, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
@@ -36,6 +38,7 @@ public class Train {
         this.capacity = inputCapacity;
         this.speed = inputSpeed;
         this.eventTimeStatus = new HashMap<>();
+        this.arrivingList = new ArrayList<>();
    }
 
     public void setRoute(int inputRoute) { this.route = inputRoute; }
@@ -93,6 +96,8 @@ public class Train {
                 passenger.arriveAtStop(stopID, eventTime);
                 if (!passenger.arriveAtDestination()) {
                     exchangeList.add(passenger);
+                } else {
+                    arrivingList.add(passenger);
                 }
                 deboardList.add(passenger);
                 
@@ -104,6 +109,10 @@ public class Train {
     
     public void addNewPassengers(ArrayList<Rider> newRiderList) {
         this.passengers.addAll(newRiderList);
+    }
+    
+    public ArrayList<Rider> getArrivingList() {
+        return this.arrivingList;
     }
 
     //Override the equals method to compare the object

@@ -12,6 +12,8 @@ public class Bus {
     private Integer capacity;
     private double speed; // given in statute miles per hour
     private HashMap<Integer, Integer> eventTimeStatus;
+    //private HashMap<Integer, int[]> arrivingRiderStatus;
+    ArrayList<Rider> arrivingList;
 
     public Bus() {
         this.ID = -1;
@@ -26,6 +28,8 @@ public class Bus {
         this.capacity = -1;
         this.speed = -1;
         this.eventTimeStatus = new HashMap<>();
+        //this.arrivingRiderStatus = new HashMap<>();
+        this.arrivingList = new ArrayList<>();
     }
 
     public Bus(int uniqueValue, int inputRoute, int inputLocation, int inputCapacity, double inputSpeed) {
@@ -37,6 +41,8 @@ public class Bus {
         this.capacity = inputCapacity;
         this.speed = inputSpeed;
         this.eventTimeStatus = new HashMap<>();
+        //this.arrivingRiderStatus = new HashMap<>();
+        this.arrivingList = new ArrayList<>();
    }
 
     public void setRoute(int inputRoute) { this.route = inputRoute; }
@@ -94,12 +100,18 @@ public class Bus {
                 passenger.arriveAtStop(stopID, eventTime);
                 if (!passenger.arriveAtDestination()) {
                     exchangeList.add(passenger);
+                } else {
+                    arrivingList.add(passenger);                  
                 }
-                deboardList.add(passenger);
+                deboardList.add(passenger);                
             }
         }
         passengers.removeAll(deboardList);
         return exchangeList;
+    }
+    
+    public ArrayList<Rider> getArrivingList() {
+        return this.arrivingList;
     }
     
     public void addNewPassengers(ArrayList<Rider> newRiderList) {

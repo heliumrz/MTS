@@ -19,9 +19,11 @@ extend_rail_route,2,7
 extend_rail_route,2,1
 extend_rail_route,2,4
 extend_rail_route,2,6
-add_bus,0,0,0,100,80.00
-add_bus,1,1,0,100,80.00
-add_train,2,2,0,500,100.00
+add_bus,0,0,0,50,80.00
+add_bus,1,1,0,50,80.00
+add_bus,2,0,0,50,80.00
+add_bus,3,1,0,50,80.00
+add_train,2,2,0,200,100.00
 set_road_condition,0,0,1,2.20,20.00,40.00,60.00
 set_road_condition,0,1,2,2.20,20.00,40.00,60.00
 set_road_condition,0,2,0,3.60,20.00,40.00,60.00
@@ -36,7 +38,9 @@ generate_map
 add_event,0,move_bus,0
 add_event,0,move_bus,1
 add_event,0,move_train,2
-step_multi,240,10,2,10
+add_event,5,move_bus,2
+add_event,5,move_bus,3
+step_multi,120,10,2,10
 system_report
 display_model
 quit

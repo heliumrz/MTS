@@ -68,7 +68,7 @@ public class RoadCondition {
 	}
 
 	public double getSpeed(int eventTime) {
-	    if (((eventTime % 240) >= 70 && (eventTime % 240) <= 90) || ((eventTime % 240) >= 170 && (eventTime % 240) <= 190)) {
+	    if (((eventTime % 120) >= 40 && (eventTime % 120) <= 80)) {
 	        return (RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax)) / 2;
 	    }
 		return RandomSpeedGenerator.getInstance().getRandomSpeed(speedLowest, speedAve, speedMax);

@@ -39,9 +39,9 @@ public class SimQueue {
                     for (int time = lastEventTime; time < activeEvent.getRank(); time++) {
                         int newRiderNumber = 0;
                         if (((time % 120) >= 40 && (time % 120) <= 80)) {
-                                newRiderNumber = activeStop.getRiderRandomNumber()*5;
+                                newRiderNumber = activeStop.getRiderRandomNumber()*3;
                             } else {
-                                newRiderNumber = activeStop.getRiderRandomNumber();
+                                newRiderNumber = activeStop.getRiderRandomNumber()/2;
                             }                       
                         ArrayList<Rider> newRailRiderList = busModel.generateRiders(activeStopID, newRiderNumber, time);
                         newStopRiderList.addAll(newRailRiderList);
@@ -116,10 +116,10 @@ public class SimQueue {
                     ArrayList<Rider> newRailStopRiderList = new ArrayList<>();
                     for (int time = lastRailStopEventTime; time < activeEvent.getRank(); time++) {
                         int newRailRiderNumber = 0;
-                        if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
-                                newRailRiderNumber = activeRailStop.getRiderRandomNumber()*5;
+                        if (((time % 120) >= 40 && (time % 120) <= 80)) {
+                                newRailRiderNumber = activeRailStop.getRiderRandomNumber()*3;
                             } else {
-                                newRailRiderNumber = activeRailStop.getRiderRandomNumber();
+                                newRailRiderNumber = activeRailStop.getRiderRandomNumber()/2;
                             }                       
                         ArrayList<Rider> newRailRiderList = busModel.generateRiders(activeRailStopID, newRailRiderNumber, time);
                         newRailStopRiderList.addAll(newRailRiderList);

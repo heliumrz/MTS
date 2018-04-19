@@ -6,10 +6,12 @@ import java.util.List;
 public class Rider {
     private List<HashMap<Integer, ArrayList<Integer>>> destinationList;
     private Integer startTime;
+    private Integer initialTime;
     private Integer arriveStopTime;
     private Integer onBoardTime;
     private Integer accumulatedOnBusTime;
     private Integer waitTime;
+    private Integer exchangeStopNumber;
     
     
     public Rider() {
@@ -19,6 +21,8 @@ public class Rider {
         this.onBoardTime = 0;
         this.accumulatedOnBusTime = 0;
         this.waitTime = 0;
+        this.exchangeStopNumber = 0;
+        this.initialTime = 0;
     }
 
     public Rider(ArrayList<HashMap<Integer, ArrayList<Integer>>> destinationList, int eventStartTime) {
@@ -28,6 +32,8 @@ public class Rider {
         this.onBoardTime = eventStartTime;
         this.accumulatedOnBusTime = 0;
         this.waitTime = 0;
+        this.exchangeStopNumber = destinationList.size() - 1;
+        this.initialTime = eventStartTime;
    }
     
    public List<HashMap<Integer, ArrayList<Integer>>> getDestinationList() {
@@ -41,7 +47,7 @@ public class Rider {
    public void boardingVehicle(int routeID, int eventTime) {
        destinationList = destinationList.subList(1, destinationList.size());
        onBoardTime = eventTime;
-       waitTime = eventTime - startTime;
+       waitTime += eventTime - startTime;
    }
     
    public void arriveAtStop(int stopID, int eventTime) {
@@ -50,8 +56,16 @@ public class Rider {
            startTime = eventTime;
    }
    
+   public Integer getInitialTime() {
+       return initialTime;
+   }
+   
    public Integer getWaitingTime() {
-       return this.waitTime;
+       return this.waitTime/this.exchangeStopNumber;
+   }
+   
+   public Integer getAccumulatedOnBusTime() {
+       return this.accumulatedOnBusTime;
    }
    
    public boolean arriveAtDestination() {
