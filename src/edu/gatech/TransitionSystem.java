@@ -290,11 +290,13 @@ public class TransitionSystem {
         int waitRiderNumberNormal = 0;
         int waitTimeRushHour = 0;
         int waitRiderNumberRushHour = 0;
+        int waitTimeAfterRh = 0;
+        int waitRiderAfterRh = 0;
 
         for (Bus bus: buses.values()) {
             HashMap<Integer, Integer> eventTimePassenger = bus.getEventTimeStatus();
             for (Integer time : eventTimePassenger.keySet()) {
-                if ((time % 120) <= 80 && (time % 120) >= 40) {
+                if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
                     passengerSizeBusRushHour += eventTimePassenger.get(time);
                     busCapacityRushHour += bus.getCapacity();
                 } else {
@@ -307,7 +309,7 @@ public class TransitionSystem {
         for (Train train: trains.values()) {
             HashMap<Integer, Integer> eventTimePassenger = train.getEventTimeStatus();
             for (Integer time : eventTimePassenger.keySet()) {
-                if ((time % 120) <= 80 && (time % 120) >= 40) {
+                if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
                     passengerSizeTrainRushHour += eventTimePassenger.get(time);
                     trainCapacityRushHour += train.getCapacity();
                 } else {
@@ -320,10 +322,14 @@ public class TransitionSystem {
         for (Stop stop : stops.values()) {
             HashMap<Integer, int[]> eventTimeWaitRider = stop.getEventTimeStatus();
             for (Integer time : eventTimeWaitRider.keySet()) {
-                if ((time % 120) <= 80 && (time % 120) >= 40) {
+                if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
                     waitTimeRushHour += eventTimeWaitRider.get(time)[0];
                     waitRiderNumberRushHour += eventTimeWaitRider.get(time)[1];
                 } else {
+                    if (((time % 240) >= 90 && (time % 240) <= 110) || ((time % 240) >= 190 && (time % 240) <= 210)) {
+                        waitTimeAfterRh += eventTimeWaitRider.get(time)[0];
+                        waitRiderAfterRh += eventTimeWaitRider.get(time)[1];
+                    }
                     waitTimeNormal += eventTimeWaitRider.get(time)[0];
                     waitRiderNumberNormal += eventTimeWaitRider.get(time)[1];
                 }
@@ -342,6 +348,7 @@ public class TransitionSystem {
         int waitingTimeNormal = waitTimeNormal/waitRiderNumberNormal;
         int waitingTimeRushHour = waitTimeRushHour/waitRiderNumberRushHour;
         int waitingTimeAverage = (waitTimeNormal + waitTimeRushHour)/(waitRiderNumberNormal + waitRiderNumberRushHour);
+        int waitingTimeAfterRh = waitTimeAfterRh/waitRiderAfterRh;
         
         System.out.println("\n The bus attendance rate during ordinary time is: " + attendanceRateBusNormal + "%.\n");
         System.out.println(" The bus attendance rate during rush hour is: " + attendanceRateBusRushHour + "%.\n");
@@ -354,6 +361,7 @@ public class TransitionSystem {
         System.out.println(" The average vehicle attendance rate is: " + attendanceRateAverage + "%.\n");
         System.out.println(" The rider average waiting time during ordinary time is: " + waitingTimeNormal + " min.\n");
         System.out.println(" The rider average waiting time during rush hour is: " + waitingTimeRushHour + " min.\n");
+        System.out.println(" The rider average waiting time two hours after rush hour is: " + waitingTimeAfterRh + " min.\n");
         System.out.println(" The rider total average waiting time is: " + waitingTimeAverage + " min.\n");        
     }
     

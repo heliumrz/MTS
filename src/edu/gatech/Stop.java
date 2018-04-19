@@ -97,6 +97,7 @@ public class Stop {
         this.eventTimeStatus.put(eventTime, status);
         this.waiting.removeAll(boardingList);
         this.waiting.addAll(exchangePassengers);
+        this.lastEventTime = eventTime;
         return boardingList;        
     }
         
@@ -110,17 +111,12 @@ public class Stop {
     
     public void addNewRiders(ArrayList<Rider> moreRiders) { waiting.addAll(moreRiders); }
     
-    public Integer getNewRiderNumber(int eventTime) {        
-        int newRiderNumber = 0;
-        for (int time = lastEventTime; time < eventTime; time++) {
-            if (((eventTime % 120) >= 40 && (eventTime % 120) <= 80)) {
-                newRiderNumber += riderRandomNumber*5;
-            } else {
-                newRiderNumber += riderRandomNumber;
-            }
-        }
-        lastEventTime = eventTime;
-        return newRiderNumber;
+    public Integer getLastEventTime() {
+        return lastEventTime;
+    }
+    
+    public Integer getRiderRandomNumber() {
+        return this.riderRandomNumber;
     }
 
     public void displayInternalStatus() {

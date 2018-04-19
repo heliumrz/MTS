@@ -33,11 +33,21 @@ public class SimQueue {
                     Stop activeStop = busModel.getStop(activeStopID);
                     System.out.println(" the bus is currently at stop: " + Integer.toString(activeStop.getID()) + " - " + activeStop.getName());
                     
-                    // generate add new riders to active stop
-                    int newRiderNumber = activeStop.getNewRiderNumber(activeEvent.getRank());
-                    ArrayList<Rider> newRiderList = busModel.generateRiders(activeStopID, newRiderNumber, activeEvent.getRank());
-                    System.out.println(" New riders:\n " + newRiderList);
-                    activeStop.addNewRiders(newRiderList);
+                    // generate and add new riders to active stop
+                    int lastEventTime = activeStop.getLastEventTime();
+                    ArrayList<Rider> newStopRiderList = new ArrayList<>();
+                    for (int time = lastEventTime; time < activeEvent.getRank(); time++) {
+                        int newRiderNumber = 0;
+                        if (((time % 120) >= 40 && (time % 120) <= 80)) {
+                                newRiderNumber = activeStop.getRiderRandomNumber()*5;
+                            } else {
+                                newRiderNumber = activeStop.getRiderRandomNumber();
+                            }                       
+                        ArrayList<Rider> newRailRiderList = busModel.generateRiders(activeStopID, newRiderNumber, time);
+                        newStopRiderList.addAll(newRailRiderList);
+                    }                    
+                    System.out.println(" New riders:\n " + newStopRiderList);
+                    activeStop.addNewRiders(newStopRiderList);
                     System.out.println(" Waiting riders:\n " + activeStop.getWaiting());
 
                     // drop off passengers at current stop
@@ -102,10 +112,20 @@ public class SimQueue {
                     System.out.println(" the train is currently at stop: " + Integer.toString(activeRailStop.getID()) + " - " + activeRailStop.getName());
                     
                     // generate and add new riders to active stop
-                    int newStopRiderNumber = activeRailStop.getNewRiderNumber(activeEvent.getRank());
-                    ArrayList<Rider> newStopRiderList = busModel.generateRiders(activeRailStopID, newStopRiderNumber, activeEvent.getRank());
-                    System.out.println(" New riders:\n " + newStopRiderList);
-                    activeRailStop.addNewRiders(newStopRiderList);
+                    int lastRailStopEventTime = activeRailStop.getLastEventTime();
+                    ArrayList<Rider> newRailStopRiderList = new ArrayList<>();
+                    for (int time = lastRailStopEventTime; time < activeEvent.getRank(); time++) {
+                        int newRailRiderNumber = 0;
+                        if (((time % 240) >= 70 && (time % 240) <= 90) || ((time % 240) >= 170 && (time % 240) <= 190)) {
+                                newRailRiderNumber = activeRailStop.getRiderRandomNumber()*5;
+                            } else {
+                                newRailRiderNumber = activeRailStop.getRiderRandomNumber();
+                            }                       
+                        ArrayList<Rider> newRailRiderList = busModel.generateRiders(activeRailStopID, newRailRiderNumber, time);
+                        newRailStopRiderList.addAll(newRailRiderList);
+                    }                    
+                    System.out.println(" New riders:\n " + newRailStopRiderList);
+                    activeRailStop.addNewRiders(newRailStopRiderList);
                     System.out.println(" Waiting riders:\n " + activeRailStop.getWaiting());
                     
 
