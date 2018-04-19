@@ -3,15 +3,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Stop {
-    private Integer ID;
+    private int ID;
     private String stopName;
     private Double xCoord;
     private Double yCoord;
-    private Integer averageWaitingTime;
+    private int averageWaitingTime;
     private ArrayList<Rider> waiting;
-    private Integer riderRandomNumber;
+    private int riderRandomNumber;
     private HashMap<Integer, int[]> eventTimeStatus;
-    private Integer lastEventTime;
+    private int lastEventTime;
 
     public Stop() {
         this.ID = -1;
@@ -24,7 +24,7 @@ public class Stop {
         this.yCoord = 0.0;
         this.averageWaitingTime = 0;
         this.waiting = new ArrayList<Rider>();
-        this.averageWaitingTime = 0;
+        //this.averageWaitingTime = 0;
         this.riderRandomNumber = 0;
         this.eventTimeStatus = new HashMap<>();
         this.lastEventTime = 0;
@@ -101,7 +101,7 @@ public class Stop {
         return boardingList;        
     }
         
-    public Integer getAverageWaitingTime() {
+    public int getAverageWaitingTime() {
         return this.averageWaitingTime;
     }
     
@@ -111,11 +111,11 @@ public class Stop {
     
     public void addNewRiders(ArrayList<Rider> moreRiders) { waiting.addAll(moreRiders); }
     
-    public Integer getLastEventTime() {
+    public int getLastEventTime() {
         return lastEventTime;
     }
     
-    public Integer getRiderRandomNumber() {
+    public int getRiderRandomNumber() {
         return this.riderRandomNumber;
     }
 
