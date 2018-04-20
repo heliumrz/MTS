@@ -1,1 +1,0 @@
-java -cp "./mtsGUI_1.jar:./postgresql-42.2.1.jar" edu.gatech.mtsGUI
