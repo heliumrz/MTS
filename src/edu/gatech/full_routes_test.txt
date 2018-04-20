@@ -1,0 +1,320 @@
+add_stop,0,JOSEPH E LOWERY BLVD@BECKWITH ST SW,33.752636,-84.417759,1
+add_stop,1,JOSEPH E LOWERY BLVD@PARSONS ST SW,33.751251,-84.417762,2
+add_stop,2,JOSEPH E LOWERY BLVD@ASHBY GRV SW,33.750144,-84.417732,1
+add_stop,3,JOSEPH E LOWERY BLVD @ FAIR ST SW,33.749364,-84.417742,3
+add_stop,4,JOSEPH E LOWERY BLVD@WESTVIEW DR SW,33.746685,-84.417803,1
+add_stop,5,JOSEPH E LOWERY BLVD@SELLS AVE SW,33.745587,-84.417784,2
+add_stop,6,W END AVE SW @ ASHBY ST SW,33.744255,-84.416588,3
+add_stop,7,W END AVE SW @ WELLBORN ST SW,33.744304,-84.415499,4
+add_stop,8,W END AVE SW @ ASHBY ST SW,33.744724,-84.417207,1
+add_stop,9,JOSEPH E LOWERY BLVD @ ATLANTA STUDENT MOVEMENT BLVD,33.749024,-84.417337,2
+add_stop,10,JOSEPH E LOWERY BLVD@PARSONS ST SW,33.75063,-84.417277,1
+add_stop,11,JOSEPH E LOWERY BLVD@BECKWITH ST SW,33.752027,-84.417322,3
+add_stop,12,ATLANTA STUDENT MOVEMENT BLVD @ EUHRLEE ST SW,33.749264,-84.416015,1
+add_stop,13,ATLANTA STUDENT MOVEMENT BLVD @ OGDEN ST SW,33.749236,-84.416809,2
+add_stop,14,FAIR ST SW @ JOSEPH E LOWERY BLVD,33.748985,-84.418059,3
+add_stop,15,FAIR ST SW @ ABBOTT ST SW,33.748959,-84.419167,4
+add_stop,16,FAIR ST SW @ AGNES JONES PL SW,33.748981,-84.420273,1
+add_stop,17,FAIR ST SW @ JOSE ST SW,33.74892,-84.421694,2
+add_stop,18,FAIR ST SW@LAWTON ST SW,33.749088,-84.423135,1
+add_stop,19,FAIR ST SW@SAINT JOSE ST SW,33.749272,-84.421726,3
+add_stop,20,ATLANTA STUDENT MOVEMENT BLVD @ EUHRLEE ST SW,33.749192,-84.416048,1
+add_stop,21,FAIR ST SW@AGNES JONES PL SW,33.749162,-84.420461,2
+add_stop,22,JOSEPH E LOWERY BLVD@MITCHELL ST SW,33.753431,-84.417326,3
+add_stop,23,JOSEPH E LOWERY BLVD @ MARTIN L KING JR DR,33.754524,-84.417346,4
+add_stop,24,MARTIN LUTHER KING J@CHICAMAUGA AVE,33.75369,-84.432088,1
+add_stop,25,MARTIN LUTHER KING J DR SW@CERRO ST,33.753549,-84.429794,2
+add_stop,26,MARTIN LUTHER KING J DR SW@BURBANK,33.753443,-84.428174,1
+add_stop,27,HOLDERNESS ST SW @ FAIR ST SW,33.748933,-84.426351,3
+add_stop,28,FAIR ST SW@HOLDERNESS ST SW,33.749076,-84.426353,1
+add_stop,29,HOLDERNESS ST SW@WESTVIEW DR SW,33.747532,-84.426611,2
+add_stop,30,HOLDERNESS ST SW@WESTVIEW DR SW,33.747425,-84.426987,3
+add_stop,31,WESTVIEW DR SW@LANGHORN ST SW,33.747154,-84.427994,4
+add_stop,32,WESTVIEW DR SW@ATWOOD ST SW,33.747192,-84.429146,1
+add_stop,33,WESTVIEW DR SW@HOPKINS ST SW,33.747363,-84.430916,2
+add_stop,34,WESTVIEW DR SW@CHICAMAUGA AVE SW,33.747379,-84.432101,1
+add_stop,35,WESTVIEW DR SW @ CHICAMAUGA AVE SW,33.74728,-84.432645,3
+add_stop,36,LUCILE AVE SW @ JOSEPH E LOWERY BLVD,33.742268,-84.418137,1
+add_stop,37,LUCILE AVE SW @ PEEPLES ST SW,33.742294,-84.420334,2
+add_stop,38,LUCILE AVE SW @ LAWTON ST SW,33.742287,-84.422523,3
+add_stop,39,LUCILE AVE SW @ LAWTON ST SW,33.742287,-84.423462,4
+add_stop,40,LUCILE AVE SW @ DARGAN PL SW,33.742378,-84.425133,1
+add_stop,41,LUCILE AVE SW @ HOPKINS ST SW,33.74237,-84.43048,2
+add_stop,42,LUCILE AVE SW @ LANGHORN ST SW,33.742336,-84.432297,1
+add_stop,43,LUCILE AVE SW @ HOPKINS ST SW,33.742174,-84.430404,3
+add_stop,44,LUCILE AVE SW @ ATWOOD ST SW,33.742262,-84.428855,1
+add_stop,45,LUCILE AVE SW @ HOLDERNESS ST SW,33.742246,-84.427138,2
+add_stop,46,LUCILE AVE SW @ DARGAN PL SW,33.742257,-84.424801,3
+add_stop,47,LUCILE AVE SW @ LAWTON ST SW,33.742213,-84.423366,4
+add_stop,48,LUCILE AVE SW @ LAWTON ST SW,33.742169,-84.422714,1
+add_stop,49,LUCILE AVE SW @ PEEPLES ST SW,33.741464,-84.420484,2
+add_stop,50,LUCILE AVE SW @ ATWOOD ST SW,33.742378,-84.428787,1
+add_stop,51,JOSEPH E LOWERY BLVD @ SELLS AVE SW,33.745314,-84.41729,3
+add_stop,52,JOSEPH E LOWERY BLVD@WESTVIEW DR SW,33.74634,-84.417334,1
+add_stop,53,MARTIN L KING JR DR NW @ CERRO ST SW,33.753645,-84.42959,2
+add_stop,54,MARTIN L KING JR DR NW @ BURBANK DR NW,33.753515,-84.428,3
+add_stop,55,MARTIN LUTHER KING J@STAFFORD ST,33.753444,-84.426522,4
+add_stop,56,MARTIN L KING JR DR NW @ STAFFORD ST SW,33.753516,-84.426489,1
+add_stop,57,MARTIN L KING JR DR @ MORRIS BROWN,33.75384,-84.424968,2
+add_stop,58,MARTIN L KING JR DR NW @ MORRIS BROWN DR SW,33.753893,-84.425011,1
+add_stop,59,MARTIN LUTHER KING J@HUNTER PL N,33.754395,-84.423827,3
+add_stop,60,MARTIN LUTHER KING J DR @ WHITEHOUSE DR,33.754709,-84.41994,1
+add_stop,61,MARTIN L KING JR DR NW @ HUNTER PL NW,33.754431,-84.423892,2
+add_stop,62,MARTIN L KING JR DR NW @ BOOKER ST NW,33.754772,-84.420311,3
+add_stop,63,MARTIN L KING JR DR NW @ CHICAMAUGA AVE NW,33.753823,-84.431838,4
+add_bus_route,0,0,Centennial Oly. Park/Coronet Way
+add_bus_route,1,1,Ponce de Leon  Ave/Moreland Ave
+add_bus_route,2,2,Martin Luther King Jr. Dr/Auburn Av
+add_bus_route,3,3,Thomasville/Moreland Avenue
+add_bus_route,4,4,Piedmont Road/Sandy Springs
+add_bus_route,5,5,Emory
+add_bus_route,6,6,North Druid Hills Rd.
+add_rail_route,0,0,BLUE-East/West Line
+add_rail_route,1,1,GOLD-Northeast Doraville Line
+add_rail_route,2,2,GREEN-Proctor Creek Line
+add_rail_route,3,3,RED-North South North Springs Line
+extend_bus_route,0,1
+extend_bus_route,0,41
+extend_bus_route,0,42
+extend_bus_route,0,14
+extend_bus_route,0,43
+extend_bus_route,0,25
+extend_bus_route,0,35
+extend_bus_route,0,16
+extend_bus_route,0,44
+extend_bus_route,0,45
+extend_bus_route,0,29
+extend_bus_route,0,46
+extend_bus_route,0,47
+extend_bus_route,0,39
+extend_bus_route,0,61
+extend_bus_route,1,2
+extend_bus_route,1,50
+extend_bus_route,1,8
+extend_bus_route,1,51
+extend_bus_route,1,27
+extend_bus_route,1,36
+extend_bus_route,1,4
+extend_bus_route,1,15
+extend_bus_route,1,24
+extend_bus_route,1,48
+extend_bus_route,1,49
+extend_bus_route,2,9
+extend_bus_route,2,10
+extend_bus_route,2,53
+extend_bus_route,2,54
+extend_bus_route,2,19
+extend_bus_route,2,18
+extend_bus_route,2,52
+extend_bus_route,3,27
+extend_bus_route,3,44
+extend_bus_route,3,45
+extend_bus_route,3,29
+extend_bus_route,3,62
+extend_bus_route,3,47
+extend_bus_route,3,55
+extend_bus_route,4,1
+extend_bus_route,4,56
+extend_bus_route,4,57
+extend_bus_route,4,12
+extend_bus_route,4,58
+extend_bus_route,4,59
+extend_bus_route,4,22
+extend_bus_route,4,23
+extend_bus_route,4,14
+extend_bus_route,4,3
+extend_bus_route,5,50
+extend_bus_route,5,9
+extend_bus_route,5,53
+extend_bus_route,5,52
+extend_bus_route,5,51
+extend_bus_route,5,60
+extend_bus_route,6,18
+extend_bus_route,6,19
+extend_bus_route,6,20
+extend_bus_route,6,63
+extend_bus_route,6,45
+extend_rail_route,0,0
+extend_rail_route,0,1
+extend_rail_route,0,2
+extend_rail_route,0,3
+extend_rail_route,0,4
+extend_rail_route,0,5
+extend_rail_route,0,6
+extend_rail_route,0,7
+extend_rail_route,0,8
+extend_rail_route,0,9
+extend_rail_route,0,10
+extend_rail_route,1,11
+extend_rail_route,1,12
+extend_rail_route,1,13
+extend_rail_route,1,14
+extend_rail_route,1,15
+extend_rail_route,1,16
+extend_rail_route,1,17
+extend_rail_route,1,18
+extend_rail_route,1,19
+extend_rail_route,1,20
+extend_rail_route,2,21
+extend_rail_route,2,22
+extend_rail_route,2,23
+extend_rail_route,2,24
+extend_rail_route,2,25
+extend_rail_route,2,26
+extend_rail_route,2,27
+extend_rail_route,2,28
+extend_rail_route,2,29
+extend_rail_route,2,30
+extend_rail_route,3,31
+extend_rail_route,3,32
+extend_rail_route,3,33
+extend_rail_route,3,34
+extend_rail_route,3,35
+extend_rail_route,3,36
+extend_rail_route,3,37
+extend_rail_route,3,38
+extend_rail_route,3,39
+extend_rail_route,3,40
+add_bus,0,0,0,30,80.00
+add_bus,1,1,0,30,80.00
+add_bus,2,2,0,30,80.00
+add_bus,3,3,0,30,80.00
+add_bus,4,4,0,30,80.00
+add_bus,5,5,0,30,80.00
+add_bus,6,6,0,30,80.00
+add_bus,7,0,0,30,80.00
+add_bus,8,1,0,30,80.00
+add_bus,9,2,0,30,80.00
+add_bus,10,3,0,30,80.00
+add_bus,11,4,0,30,80.00
+add_bus,12,5,0,30,80.00
+add_bus,13,6,0,30,80.00
+add_train,0,0,0,200,100.00
+add_train,1,1,0,200,100.00
+add_train,2,2,0,200,100.00
+add_train,3,3,0,200,100.00
+set_road_condition,0,1,41,2.20,20.00,40.00,60.00
+set_road_condition,0,41,42,3.60,20.00,40.00,60.00
+set_road_condition,0,42,14,3.20,60.00,80.00,100.00
+set_road_condition,0,14,43,2.20,20.00,40.00,60.00
+set_road_condition,0,43,25,3.60,20.00,40.00,60.00
+set_road_condition,0,25,35,3.20,60.00,80.00,100.00
+set_road_condition,0,35,16,2.20,20.00,40.00,60.00
+set_road_condition,0,16,44,3.60,20.00,40.00,60.00
+set_road_condition,0,44,45,3.20,60.00,80.00,100.00
+set_road_condition,0,45,29,2.20,20.00,40.00,60.00
+set_road_condition,0,29,46,3.60,20.00,40.00,60.00
+set_road_condition,0,46,47,3.20,60.00,80.00,100.00
+set_road_condition,0,47,39,2.20,20.00,40.00,60.00
+set_road_condition,0,39,61,3.60,20.00,40.00,60.00
+set_road_condition,0,61,1,3.20,60.00,80.00,100.00
+set_road_condition,1,2,50,2.20,20.00,40.00,60.00
+set_road_condition,1,50,8,3.60,20.00,40.00,60.00
+set_road_condition,1,8,51,3.20,60.00,80.00,100.00
+set_road_condition,1,51,27,2.20,20.00,40.00,60.00
+set_road_condition,1,27,36,3.60,20.00,40.00,60.00
+set_road_condition,1,36,4,3.20,60.00,80.00,100.00
+set_road_condition,1,4,15,2.20,20.00,40.00,60.00
+set_road_condition,1,15,24,3.60,20.00,40.00,60.00
+set_road_condition,1,24,48,3.20,60.00,80.00,100.00
+set_road_condition,1,48,49,2.20,20.00,40.00,60.00
+set_road_condition,1,49,2,3.60,20.00,40.00,60.00
+set_road_condition,2,9,10,3.20,60.00,80.00,100.00
+set_road_condition,2,10,53,2.20,20.00,40.00,60.00
+set_road_condition,2,53,54,3.60,20.00,40.00,60.00
+set_road_condition,2,54,19,3.20,60.00,80.00,100.00
+set_road_condition,2,19,18,2.20,20.00,40.00,60.00
+set_road_condition,2,18,52,3.60,20.00,40.00,60.00
+set_road_condition,2,52,27,3.20,60.00,80.00,100.00
+set_road_condition,3,27,44,2.20,20.00,40.00,60.00
+set_road_condition,3,44,45,3.60,20.00,40.00,60.00
+set_road_condition,3,45,29,3.20,60.00,80.00,100.00
+set_road_condition,3,29,62,3.20,60.00,80.00,100.00
+set_road_condition,3,62,47,2.20,20.00,40.00,60.00
+set_road_condition,3,47,55,2.20,20.00,40.00,60.00
+set_road_condition,3,55,9,3.60,20.00,40.00,60.00
+set_road_condition,4,1,56,3.20,60.00,80.00,100.00
+set_road_condition,4,56,57,2.20,20.00,40.00,60.00
+set_road_condition,4,57,12,3.60,20.00,40.00,60.00
+set_road_condition,4,12,58,3.20,60.00,80.00,100.00
+set_road_condition,4,58,59,2.20,20.00,40.00,60.00
+set_road_condition,4,59,22,3.60,20.00,40.00,60.00
+set_road_condition,4,22,23,3.20,60.00,80.00,100.00
+set_road_condition,4,23,14,2.20,20.00,40.00,60.00
+set_road_condition,4,14,3,3.60,20.00,40.00,60.00
+set_road_condition,4,3,1,3.20,60.00,80.00,100.00
+set_road_condition,5,50,9,2.20,20.00,40.00,60.00
+set_road_condition,5,9,53,3.60,20.00,40.00,60.00
+set_road_condition,5,53,52,3.20,60.00,80.00,100.00
+set_road_condition,5,52,51,2.20,20.00,40.00,60.00
+set_road_condition,5,51,60,3.60,20.00,40.00,60.00
+set_road_condition,5,60,18,3.20,60.00,80.00,100.00
+set_road_condition,6,18,19,2.20,20.00,40.00,60.00
+set_road_condition,6,19,20,3.60,20.00,40.00,60.00
+set_road_condition,6,20,63,3.20,60.00,80.00,100.00
+set_road_condition,6,63,45,2.20,20.00,40.00,60.00
+set_road_condition,6,45,18,3.60,20.00,40.00,60.00
+set_rail_stop_distance,0,0,1,3.60
+set_rail_stop_distance,0,1,2,3.60
+set_rail_stop_distance,0,2,3,3.60
+set_rail_stop_distance,0,3,4,3.60
+set_rail_stop_distance,0,4,5,3.60
+set_rail_stop_distance,0,5,6,3.60
+set_rail_stop_distance,0,6,7,3.60
+set_rail_stop_distance,0,7,8,3.60
+set_rail_stop_distance,0,8,9,3.60
+set_rail_stop_distance,0,9,10,3.60
+set_rail_stop_distance,0,10,0,3.60
+set_rail_stop_distance,1,11,12,3.60
+set_rail_stop_distance,1,12,13,3.60
+set_rail_stop_distance,1,13,14,3.60
+set_rail_stop_distance,1,14,15,3.60
+set_rail_stop_distance,1,15,16,3.60
+set_rail_stop_distance,1,16,17,3.60
+set_rail_stop_distance,1,17,18,3.60
+set_rail_stop_distance,1,18,19,3.60
+set_rail_stop_distance,1,19,20,3.60
+set_rail_stop_distance,1,20,11,3.60
+set_rail_stop_distance,2,21,22,3.60
+set_rail_stop_distance,2,22,23,3.60
+set_rail_stop_distance,2,23,24,3.60
+set_rail_stop_distance,2,24,25,3.60
+set_rail_stop_distance,2,25,26,3.60
+set_rail_stop_distance,2,26,27,3.60
+set_rail_stop_distance,2,27,28,3.60
+set_rail_stop_distance,2,28,29,3.60
+set_rail_stop_distance,2,29,30,3.60
+set_rail_stop_distance,2,30,21,3.60
+set_rail_stop_distance,3,31,32,3.60
+set_rail_stop_distance,3,32,33,3.60
+set_rail_stop_distance,3,33,34,3.60
+set_rail_stop_distance,3,34,35,3.60
+set_rail_stop_distance,3,35,36,3.60
+set_rail_stop_distance,3,36,37,3.60
+set_rail_stop_distance,3,37,38,3.60
+set_rail_stop_distance,3,38,39,3.60
+set_rail_stop_distance,3,39,40,3.60
+set_rail_stop_distance,3,40,31,3.60
+generate_map
+add_event,0,move_bus,0
+add_event,0,move_bus,1
+add_event,0,move_bus,2
+add_event,0,move_bus,3
+add_event,0,move_bus,4
+add_event,0,move_bus,5
+add_event,0,move_bus,6
+add_event,0,move_train,0
+add_event,0,move_train,1
+add_event,0,move_train,2
+add_event,0,move_train,3
+add_event,5,move_bus,7
+add_event,5,move_bus,8
+add_event,5,move_bus,9
+add_event,5,move_bus,10
+add_event,5,move_bus,11
+add_event,5,move_bus,12
+add_event,5,move_bus,13
+step_multi,1200,10,2,10
+system_report
+display_model
+quit

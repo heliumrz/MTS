@@ -362,7 +362,7 @@ public class TransitionSystem {
         System.out.println(" The average vehicle attendance rate is: " + attendanceRateAverage + "%.\n");  
         System.out.println(" The rider average waiting time during ordinary time is: " + waitingTimeNormalRider + " min.\n");
         System.out.println(" The rider average waiting time during rush hour is: " + waitingTimeRushHourRider + " min.\n");
-        System.out.println(" The rider average waiting time is: " + waitingTimeAverageRider + " min.\n");
+        System.out.println(" The rider average waiting time two hours after rush hour is: " + waitingTimeAverageRider + " min.\n");
         System.out.println(" The total transffered rider number is: " + (waitRiderNumberNormalRider + waitRiderNumberRushHourRider) + ".\n");       
     }
     
