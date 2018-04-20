@@ -380,7 +380,7 @@ public class TransitionSystem {
         		    " The average vehicle attendance rate is: " + String.valueOf(attendanceRateAverage) + "%.\n" + 
         		    " The rider average waiting time during ordinary time is: " + String.valueOf(waitingTimeNormalRider) + " min.\n" +
         		    " The rider average waiting time during rush hour is: " + String.valueOf(waitingTimeRushHourRider) + " min.\n" +
-        		    " The rider average waiting time two hours after rush hour is: " + String.valueOf(waitingTimeAverageRider) + " min.\n" +
+        		    " The rider average waiting time is: " + String.valueOf(waitingTimeAverageRider) + " min.\n" +
         		    " The total transffered rider number is: " + String.valueOf(waitRiderNumberNormalRider + waitRiderNumberRushHourRider) + ".\n";
         /*System.out.println("\n The bus attendance rate during ordinary time is: " + attendanceRateBusNormal + "%.\n");
         System.out.println(" The bus attendance rate during rush hour is: " + String.valueOf(attendanceRateBusRushHour) + "%.\n");
@@ -484,6 +484,12 @@ public class TransitionSystem {
                 Integer nextStop = railRoutes.get(m.getRouteID()).getStopID(m.getLocation());
                 bw.write("  stop" + Integer.toString(prevStop) + " -> train" + Integer.toString(m.getID()) + " [ label=\" dep\" ];\n");
                 bw.write("  train" + Integer.toString(m.getID()) + " -> stop" + Integer.toString(nextStop) + " [ label=\" arr\" ];\n");
+            }
+            
+            for (MiniPair stopPair: routesOnStop.keySet()) {
+                Integer preStop = stopPair.getID();
+                Integer nextStop = stopPair.getValue();
+                bw.write("  stop" + Integer.toString(preStop) + " -> stop" + Integer.toString(nextStop) + " [ style=dotted];\n");
             }
         
             bw.write("}\n");

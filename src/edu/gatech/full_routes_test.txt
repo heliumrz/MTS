@@ -225,14 +225,14 @@ set_road_condition,2,53,54,3.60,20.00,40.00,60.00
 set_road_condition,2,54,19,3.20,60.00,80.00,100.00
 set_road_condition,2,19,18,2.20,20.00,40.00,60.00
 set_road_condition,2,18,52,3.60,20.00,40.00,60.00
-set_road_condition,2,52,27,3.20,60.00,80.00,100.00
+set_road_condition,2,52,9,3.20,60.00,80.00,100.00
 set_road_condition,3,27,44,2.20,20.00,40.00,60.00
 set_road_condition,3,44,45,3.60,20.00,40.00,60.00
 set_road_condition,3,45,29,3.20,60.00,80.00,100.00
 set_road_condition,3,29,62,3.20,60.00,80.00,100.00
 set_road_condition,3,62,47,2.20,20.00,40.00,60.00
 set_road_condition,3,47,55,2.20,20.00,40.00,60.00
-set_road_condition,3,55,9,3.60,20.00,40.00,60.00
+set_road_condition,3,55,27,3.60,20.00,40.00,60.00
 set_road_condition,4,1,56,3.20,60.00,80.00,100.00
 set_road_condition,4,56,57,2.20,20.00,40.00,60.00
 set_road_condition,4,57,12,3.60,20.00,40.00,60.00
@@ -248,7 +248,7 @@ set_road_condition,5,9,53,3.60,20.00,40.00,60.00
 set_road_condition,5,53,52,3.20,60.00,80.00,100.00
 set_road_condition,5,52,51,2.20,20.00,40.00,60.00
 set_road_condition,5,51,60,3.60,20.00,40.00,60.00
-set_road_condition,5,60,18,3.20,60.00,80.00,100.00
+set_road_condition,5,60,50,3.20,60.00,80.00,100.00
 set_road_condition,6,18,19,2.20,20.00,40.00,60.00
 set_road_condition,6,19,20,3.60,20.00,40.00,60.00
 set_road_condition,6,20,63,3.20,60.00,80.00,100.00
