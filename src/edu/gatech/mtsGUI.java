@@ -28,6 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.awt.BorderLayout;
 
 public class mtsGUI extends JFrame {
 
@@ -63,19 +65,19 @@ public class mtsGUI extends JFrame {
 	private JButton btnGenerateMap;
 	private JTextArea textArea;
 	private JTextArea textArea_1;
+	private JTextArea textArea_2;
 	private JTextField txtTrainRouteNumber;
 	private JTextField txtTrainRouteName;
 	private JTextField txtRouteID_Train;
-	private JButton button;
 	
 	SimDriver commandInterpreter;
+	String reportText = "";
 	private JTextField txtStepNumber;
 	private JTextField txtDisplayFrequencyOfComplete;
 	private JTextField txtSecondsOfPause;
 	private JTextField txtDisplayFrequencyOfModel;
 	private JTextField txtEventRank;
 	private JTextField txtEventID;
-	private JLabel lblNewLabel;
 	private JComboBox<Object> comboBox1;
 	private JComboBox<Object> comboBox2;
 	private JComboBox<Object> comboBox3;
@@ -126,14 +128,14 @@ public class mtsGUI extends JFrame {
                 textArea_1.replaceSelection("");
 			}
 		});
-		btnClear.setBounds(601, 11, 70, 20);
+		btnClear.setBounds(661, 10, 70, 20);
 		panel_2.add(btnClear);
 		
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane_1.setBounds(12, 12, 719, 249);
 		panel_2.add(tabbedPane_1);
 		
-		textArea_1 = new ConsoleText();
+		textArea_1 = new JTextArea();
 		textArea_1.setText("add_stop,0,Appleville,0.0,0.08,10\n" + 
 				"add_stop,1,Banana Bayou,0.04,0.1,20\n" + 
 				"add_stop,2,Star City,0.08,0.16,10\n" + 
@@ -171,7 +173,7 @@ public class mtsGUI extends JFrame {
 				"add_event,0,move_bus,0\n" + 
 				"add_event,0,move_bus,1\n" + 
 				"add_event,0,move_train,2\n" + 
-				"step_multi,1000,100,2,10");
+				"step_multi,300,100,0,10");
 		textArea_1.setBounds(12, 12, 675, 229);
 		JScrollPane commandList = new JScrollPane(textArea_1,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -706,12 +708,30 @@ public class mtsGUI extends JFrame {
 					System.out.println("Please start the system first.");
 				}
 				else {
-				   commandInterpreter.runInterpreter("system_report");
+				   reportText = commandInterpreter.runInterpreter("system_report");
+				   textArea_2.setText(reportText);
 				}
 			}
 		});
-		btnSystemReport.setBounds(242, 64, 151, 25);
+		btnSystemReport.setBounds(242, 94, 151, 25);
 		panel_3.add(btnSystemReport);
+		
+				
+		btnGenerateMap = new JButton("Generate Map");
+		btnGenerateMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						String text = textArea_1.getText();
+						commandInterpreter = new SimDriver(); 		
+				        commandInterpreter.runInterpreter(text);
+					}
+				}).start();
+			}
+		});
+		btnGenerateMap.setBounds(63, 121, 151, 25);
+		panel_3.add(btnGenerateMap);
 		
 		btnModelDisplay = new JButton("Model Display");
 		btnModelDisplay.addActionListener(new ActionListener() {
@@ -734,28 +754,13 @@ public class mtsGUI extends JFrame {
 	        	System.err.println("Error using desktop open.");
 	        	
 	        }
-				
-				commandInterpreter.runInterpreter("display_model");
+					
+			commandInterpreter.runInterpreter("display_model");
 		  }
 		});
-		btnModelDisplay.setBounds(242, 121, 151, 25);
-		panel_3.add(btnModelDisplay);
 		
-		btnGenerateMap = new JButton("Generate Map");
-		btnGenerateMap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						String text = textArea_1.getText();
-						commandInterpreter = new SimDriver();  		
-				        commandInterpreter.runInterpreter(text);
-					}
-				}).start();
-			}
-		});
-		btnGenerateMap.setBounds(63, 121, 151, 25);
-		panel_3.add(btnGenerateMap);
+		btnModelDisplay.setBounds(242, 151, 151, 25);
+		panel_3.add(btnModelDisplay);
 		
 		JButton btnUploadData = new JButton("Upload Data");
 		btnUploadData.addActionListener(new ActionListener() {
@@ -858,7 +863,7 @@ public class mtsGUI extends JFrame {
 			    
 			}
 		});
-		btnUploadData.setBounds(242, 180, 151, 25);
+		btnUploadData.setBounds(242, 210, 151, 25);
 		panel_3.add(btnUploadData);
 		
 		JButton btnSystemStop = new JButton("Quit System");
@@ -872,6 +877,52 @@ public class mtsGUI extends JFrame {
 		});
 		btnSystemStop.setBounds(63, 180, 151, 25);
 		panel_3.add(btnSystemStop);
+		
+		JButton btnAutoRun = new JButton("Auto Run");
+		btnAutoRun.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showOpenDialog(panel_3); //Where frame is the parent component
+				
+				File file = null;
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+				    file = fc.getSelectedFile();
+				    BufferedReader br;
+					try {
+						br = new BufferedReader(new FileReader(file));
+						String text = br.lines().collect(Collectors.joining("\n"));
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								
+								commandInterpreter = new SimDriver(); 		
+						        commandInterpreter.runInterpreter(text);
+							}
+						}).start();
+						
+				        br.close();
+				      
+				      			        
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    
+				   
+				} else {
+				    //User did not choose a valid file
+					System.out.print("Invalid file type.");
+				}
+				
+				
+			}
+		});
+		btnAutoRun.setToolTipText("Please select input .txt file to run the system");
+		btnAutoRun.setBounds(242, 40, 151, 25);
+		panel_3.add(btnAutoRun);
 		//Report.setLayout(null);
 				
 			
@@ -886,37 +937,38 @@ public class mtsGUI extends JFrame {
 		panel_4.setBounds(1300, 106, 515, 751);
 		panel_4.setBorder(new LineBorder(new Color(173, 216, 230), 8));
 		this.getContentPane().add(panel_4);
-		
-		button = new JButton("clear");
-		button.setBounds(433, 11, 70, 20);
-		button.setFont(new Font("Dialog", Font.PLAIN, 11));
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				textArea.selectAll();
-                textArea.replaceSelection("");
-			}
-		});
 		panel_4.setLayout(null);
-		panel_4.add(button);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(12, 12, 491, 739);
+		tabbedPane.setBounds(8, 8, 499, 735);
 		panel_4.add(tabbedPane);
 		
 			
 		textArea = new ConsoleText();
 		textArea.setBounds(6, 30, 474, 540);
+		textArea.setEditable(false);
 		JScrollPane Report = new JScrollPane(textArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		tabbedPane.addTab("Console Report", null, Report, null);
-		//textArea_2 = new ConsoleText();
-		//textArea_2.setBounds(6, 30, 474, 540);
-		JScrollPane scrollPane = new JScrollPane();
-		tabbedPane.addTab("Statistics Report", null, scrollPane, null);
 		
-		lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(36, 60, 100, 50);
-		scrollPane.setViewportView(lblNewLabel);
+		JButton btnClear_1 = new JButton("clear");
+		btnClear_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textArea.selectAll();
+                textArea.replaceSelection("");
+			}
+		});
+		btnClear_1.setFont(new Font("Dialog", Font.PLAIN, 11));
+		Report.setColumnHeaderView(btnClear_1);
+		
+		textArea_2 = new JTextArea();
+		textArea_2.setBounds(6, 30, 474, 540);
+		textArea_2.setEditable(false);
+		JScrollPane tabbedPane_2 = new JScrollPane(textArea_2,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		tabbedPane.addTab("Statistic Report", null, tabbedPane_2, null);
+		
 	}
 }

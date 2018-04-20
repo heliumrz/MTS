@@ -1,12 +1,5 @@
 package edu.gatech;
 
-import java.util.Scanner;
-/* import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Random;
-import java.sql.*;
-import java.util.Properties; */
-
 public class SimDriver {
     private static SimQueue simEngine;
     private static TransitionSystem martaModel;
@@ -18,16 +11,19 @@ public class SimDriver {
         // randGenerator = new Random();
     }
 
-    public void runInterpreter() {
+    public String runInterpreter(String text) {
         final String DELIMITER = ",";
-        Scanner takeCommand = new Scanner(System.in);
+        String reportText = "";
+        //Scanner takeCommand = new Scanner(System.in);
+        String[] commands = text.split("\\n");
         String[] tokens;
-
-        do {
+         
+        
+        for (String userCommandLine : commands ) {
             System.out.print("# main: ");
-            String userCommandLine = takeCommand.nextLine();
+            //String userCommandLine = takeCommand.nextLine();
             tokens = userCommandLine.split(DELIMITER);
-
+            
             switch (tokens[0]) {
                 case "add_event":
                     simEngine.addNewEvent(Integer.parseInt(tokens[1]), tokens[2], Integer.parseInt(tokens[3]));
@@ -82,6 +78,8 @@ public class SimDriver {
                     System.out.println(" queue activated for 1 event");
                     break;
                 case "step_multi":
+                	martaModel.generateMap();
+                    System.out.println(" Transition map is generated. ");
                     System.out.println(" queue activated for " + Integer.parseInt(tokens[1]) + " event(s)");
                     for (int i = 0; i < Integer.parseInt(tokens[1]); i++) {
                     	// display the number of events completed for a given frequency
@@ -101,6 +99,7 @@ public class SimDriver {
                     	if (tokens.length >= 5) {
                     		if (i % Integer.parseInt(tokens[4]) == 0) { martaModel.displayModel();}
                     	}
+                    	
                     }
                     break;
                 case "system_report":
@@ -110,39 +109,39 @@ public class SimDriver {
                     for (BusRoute singleRoute: martaModel.getBusRoutes().values()) { singleRoute.displayInternalStatus(); }
                     for (Train singleTrain: martaModel.getTrains().values()) { singleTrain.displayInternalStatus(); }
                     for (RailRoute singleRoute: martaModel.getRailRoutes().values()) { singleRoute.displayInternalStatus(); }
-                    martaModel.finalReport();
+                    reportText = martaModel.finalReport();
                     break;
                 case "display_model":
                 	martaModel.displayModel();
                 	break;
                 case "quit":
                     System.out.println(" stop the command loop");
+                    
                     break;
                 default:
                     System.out.println(" command not recognized");
                     break;
             }
 
-        } while (!tokens[0].equals("quit"));
+        }
+		
+		return reportText; 
 
-        takeCommand.close();
+        //takeCommand.close();
     }
 }
 
    /* private static void uploadMARTAData() {
         ResultSet rs;
         int recordCounter;
-
         Integer stopID, routeID;
         String stopName, routeName;
         // String direction;
         Double latitude, longitude;
-
         // intermediate data structures needed for assembling the routes
         HashMap<Integer, ArrayList<Integer>> routeLists = new HashMap<Integer, ArrayList<Integer>>();
         ArrayList<Integer> targetList;
         ArrayList<Integer> circularRouteList = new ArrayList<Integer>();
-
         try {
     		// connect to the local database system
         	System.out.println(" connecting to the database");
@@ -151,10 +150,8 @@ public class SimDriver {
     		props.setProperty("user", "postgres");
     		props.setProperty("password", "cs6310");
     		props.setProperty("ssl", "true");
-
 			Connection conn = DriverManager.getConnection(url, props);
 			Statement stmt = conn.createStatement();
-
 			// create the stops
         	System.out.print(" extracting and adding the stops: ");
         	recordCounter = 0;
@@ -164,12 +161,10 @@ public class SimDriver {
                 stopName = rs.getString("stop_name");
                 latitude = rs.getDouble("latitude");
                 longitude = rs.getDouble("longitude");
-
                 martaModel.makeStop(stopID,stopName,0,latitude,longitude);
                 recordCounter++;
             }
             System.out.println(Integer.toString(recordCounter) + " added");
-
             // create the routes
         	System.out.print(" extracting and adding the routes: ");
         	recordCounter = 0;
@@ -177,15 +172,12 @@ public class SimDriver {
             while (rs.next()) {
                 routeID = rs.getInt("route");
                 routeName = rs.getString("route_name");
-
                 martaModel.makeRoute(routeID, routeID, routeName);
                 recordCounter++;
-
                 // initialize the list of stops for the route as needed
                 routeLists.putIfAbsent(routeID, new ArrayList<Integer>());
             }
             System.out.println(Integer.toString(recordCounter) + " added");
-
             // add the stops to all of the routes
         	System.out.print(" extracting and assigning stops to the routes: ");
         	recordCounter = 0;
@@ -194,7 +186,6 @@ public class SimDriver {
                 routeID = rs.getInt("route");
                 stopID = rs.getInt("min_stop_id");
                 // direction = rs.getString("direction");
-
                 targetList = routeLists.get(routeID);
                 if (!targetList.contains(stopID)) {
                     martaModel.appendStopToRoute(routeID, stopID);
@@ -203,7 +194,6 @@ public class SimDriver {
                     // if (direction.equals("Clockwise")) { circularRouteList.add(routeID); }
                 }
             }
-
             // add the reverse "route back home" stops for two-way routes
             for (Integer reverseRouteID : routeLists.keySet()) {
                 if (!circularRouteList.contains(reverseRouteID)) {
@@ -214,7 +204,6 @@ public class SimDriver {
                 }
             }
             System.out.println(Integer.toString(recordCounter) + " assigned");
-
             // create the buses and related event(s)
         	System.out.print(" extracting and adding the buses and events: ");
         	recordCounter = 0;
@@ -225,11 +214,9 @@ public class SimDriver {
                 int minBuses = rs.getInt("min_buses");
                 int avgBuses  = rs.getInt("avg_buses");
                 int maxBuses = rs.getInt("max_buses");
-
                 int routeLength = martaModel.getRoute(routeID).getLength();
                 int suggestedBuses = randomBiasedValue(minBuses, avgBuses, maxBuses);
                 int busesOnRoute = Math.max(1, Math.min(routeLength / 2, suggestedBuses));
-
                 int startingPosition = 0;
                 int skip = Math.max(1, routeLength / busesOnRoute);
                 for (int i = 0; i < busesOnRoute; i++) {
@@ -239,7 +226,6 @@ public class SimDriver {
                 }
             }
             System.out.println(Integer.toString(recordCounter) + " added");
-
             // create the rider-passenger generator and associated event(s)
         	System.out.print(" extracting and adding the rider frequency timeslots: ");
         	recordCounter = 0;
@@ -253,23 +239,18 @@ public class SimDriver {
                 int minOffs = rs.getInt("min_offs");
                 int avgOffs = rs.getInt("avg_offs");
                 int maxOffs = rs.getInt("max_offs");
-
                 martaModel.getStop(stopID).addArrivalInfo(timeSlot, minOns, avgOns, maxOns, minOffs, avgOffs, maxOffs);
                 recordCounter++;
             }
             System.out.println(Integer.toString(recordCounter) + " added");
-
-
         } catch (Exception e) {
             System.err.println("Discovered exception: ");
             System.err.println(e.getMessage());
         }
     }
-
     private static int randomBiasedValue(int lower, int middle, int upper) {
         int lowerRange = randGenerator.nextInt(middle - lower + 1) + lower;
         int upperRange = randGenerator.nextInt(upper - middle + 1) + middle;
         return (lowerRange + upperRange) /2;
     }
-
 } */

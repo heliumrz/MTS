@@ -277,7 +277,8 @@ public class TransitionSystem {
         return riderList;
     }
   
-    public void finalReport() {
+    public String finalReport() {
+    	String finalText = "";
         int passengerSizeBusNormal = 0;
         int passengerSizeTrainNormal = 0;
         int passengerSizeBusRushHour = 0;
@@ -290,10 +291,19 @@ public class TransitionSystem {
         int waitRiderNumberNormalRider = 0;
         int waitTimeRushHourRider = 0;
         int waitRiderNumberRushHourRider = 0;
+        int attendanceRateBusNormal=0;
+        int attendanceRateBusRushHour = 0;
+        int attendanceRateTrainNormal = 0;
+        int attendanceRateTrainRushHour = 0;
+        int waitingTimeNormalRider = 0;
+        int waitingTimeRushHourRider = 0;
+        int attendanceRateTrainAverage = 0;
+        int attendanceRateRushHour =0;
+        int waitingTimeAverageRider = 0;
 
         for (Bus bus: buses.values()) {
             HashMap<Integer, Integer> eventTimePassenger = bus.getEventTimeStatus();
-            for (Integer time : eventTimePassenger.keySet()) {
+            for (int time : eventTimePassenger.keySet()) {
                 if (((time % 120) >= 40 && (time % 120) <= 80)) {
                     passengerSizeBusRushHour += eventTimePassenger.get(time);
                     busCapacityRushHour += bus.getCapacity();
@@ -316,7 +326,7 @@ public class TransitionSystem {
         
         for (Train train: trains.values()) {
             HashMap<Integer, Integer> eventTimePassenger = train.getEventTimeStatus();
-            for (Integer time : eventTimePassenger.keySet()) {
+            for (int time : eventTimePassenger.keySet()) {
                 if (((time % 120) >= 40 && (time % 120) <= 80)) {
                     passengerSizeTrainRushHour += eventTimePassenger.get(time);
                     trainCapacityRushHour += train.getCapacity();
@@ -337,33 +347,56 @@ public class TransitionSystem {
             }
         }
         
-        int attendanceRateBusNormal = passengerSizeBusNormal*100/busCapacityNormal;
-        int attendanceRateBusRushHour = passengerSizeBusRushHour*100/busCapacityRushHour;
+        attendanceRateBusNormal = passengerSizeBusNormal*100/busCapacityNormal;
+        if(busCapacityRushHour!=0) { 
+        	attendanceRateBusRushHour = passengerSizeBusRushHour*100/busCapacityRushHour;}
+       
         int attendanceRateBusAverage = (passengerSizeBusRushHour + passengerSizeBusNormal)*100/(busCapacityRushHour + busCapacityNormal);
-        int attendanceRateTrainNormal = passengerSizeTrainNormal*100/trainCapacityNormal;
-        int attendanceRateTrainRushHour = passengerSizeTrainRushHour*100/trainCapacityRushHour;
-        int attendanceRateTrainAverage = (passengerSizeTrainRushHour + passengerSizeTrainNormal)*100/(trainCapacityRushHour + trainCapacityNormal);
+        if(trainCapacityNormal!=0) {
+            attendanceRateTrainNormal = passengerSizeTrainNormal*100/trainCapacityNormal;}
+        if(trainCapacityRushHour!=0) {
+            attendanceRateTrainRushHour = passengerSizeTrainRushHour*100/trainCapacityRushHour;}
+        if((trainCapacityRushHour + trainCapacityNormal)!=0) {
+        attendanceRateTrainAverage = (passengerSizeTrainRushHour + passengerSizeTrainNormal)*100/(trainCapacityRushHour + trainCapacityNormal);}
         int attendanceRateNormal = (passengerSizeBusNormal + passengerSizeTrainNormal)*100/(busCapacityNormal + trainCapacityNormal);
-        int attendanceRateRushHour = (passengerSizeBusRushHour + passengerSizeTrainRushHour)*100/(busCapacityRushHour + trainCapacityRushHour);
+        if((busCapacityRushHour + trainCapacityRushHour)!=0) {
+            attendanceRateRushHour = (passengerSizeBusRushHour + passengerSizeTrainRushHour)*100/(busCapacityRushHour + trainCapacityRushHour);}
         int attendanceRateAverage = (passengerSizeBusRushHour + passengerSizeBusNormal + passengerSizeTrainRushHour + passengerSizeTrainNormal)*100/(busCapacityRushHour + busCapacityNormal + trainCapacityRushHour + trainCapacityNormal);        
-        int waitingTimeNormalRider = waitTimeNormalRider/waitRiderNumberNormalRider;
-        int waitingTimeRushHourRider = waitTimeRushHourRider/waitRiderNumberRushHourRider;
-        int waitingTimeAverageRider = (waitTimeNormalRider + waitTimeRushHourRider)/(waitRiderNumberNormalRider + waitRiderNumberRushHourRider);
+        if(waitRiderNumberNormalRider!=0) {
+            waitingTimeNormalRider = waitTimeNormalRider/waitRiderNumberNormalRider;}
+        if(waitRiderNumberRushHourRider!=0) {
+            waitingTimeRushHourRider = waitTimeRushHourRider/waitRiderNumberRushHourRider;}
+        if((waitRiderNumberNormalRider + waitRiderNumberRushHourRider)!=0) {
+            waitingTimeAverageRider = (waitTimeNormalRider + waitTimeRushHourRider)/(waitRiderNumberNormalRider + waitRiderNumberRushHourRider);}
       
+        finalText = " The bus attendance rate during ordinary time is: " + String.valueOf(attendanceRateBusNormal) + "%.\n" +
+        		    " The bus attendance rate during rush hour is: " + String.valueOf(attendanceRateBusRushHour) + "%.\n" +
+        		    " The average bus attendance rate is: " + String.valueOf(attendanceRateBusAverage) + "%.\n" +
+        		    " The train attendance rate during ordinary time is: " + String.valueOf(attendanceRateTrainNormal) + "%.\n" +
+        		    " The train attendance rate during rush hour is: " +  String.valueOf(attendanceRateTrainRushHour) + "%.\n" +
+        		    " The average train attendance rate is: " + String.valueOf(attendanceRateTrainAverage) + "%.\n" +
+        		    " The total vehicle attendance rate during ordinary time is: " + String.valueOf(attendanceRateNormal) + "%.\n" +
+        		    " The total vehicle attendance rate during rush hour is: " + String.valueOf(attendanceRateRushHour) + "%.\n" +
+        		    " The average vehicle attendance rate is: " + String.valueOf(attendanceRateAverage) + "%.\n" + 
+        		    " The rider average waiting time during ordinary time is: " + String.valueOf(waitingTimeNormalRider) + " min.\n" +
+        		    " The rider average waiting time during rush hour is: " + String.valueOf(waitingTimeRushHourRider) + " min.\n" +
+        		    " The rider average waiting time two hours after rush hour is: " + String.valueOf(waitingTimeAverageRider) + " min.\n" +
+        		    " The total transffered rider number is: " + String.valueOf(waitRiderNumberNormalRider + waitRiderNumberRushHourRider) + ".\n";
+        /*System.out.println("\n The bus attendance rate during ordinary time is: " + attendanceRateBusNormal + "%.\n");
+        System.out.println(" The bus attendance rate during rush hour is: " + String.valueOf(attendanceRateBusRushHour) + "%.\n");
         
-        System.out.println("\n The bus attendance rate during ordinary time is: " + attendanceRateBusNormal + "%.\n");
-        System.out.println(" The bus attendance rate during rush hour is: " + attendanceRateBusRushHour + "%.\n");
         System.out.println(" The average bus attendance rate is: " + attendanceRateBusAverage + "%.\n");
-        System.out.println(" The train attendance rate during ordinary time is: " + attendanceRateTrainNormal + "%.\n");
-        System.out.println(" The train attendance rate during rush hour is: " + attendanceRateTrainRushHour + "%.\n");
-        System.out.println(" The average train attendance rate is: " + attendanceRateTrainAverage + "%.\n");
-        System.out.println(" The total vehicle attendance rate during ordinary time is: " + attendanceRateNormal + "%.\n");
-        System.out.println(" The total vehicle attendance rate during rush hour is: " + attendanceRateRushHour + "%.\n");
-        System.out.println(" The average vehicle attendance rate is: " + attendanceRateAverage + "%.\n");  
-        System.out.println(" The rider average waiting time during ordinary time is: " + waitingTimeNormalRider + " min.\n");
-        System.out.println(" The rider average waiting time during rush hour is: " + waitingTimeRushHourRider + " min.\n");
-        System.out.println(" The rider average waiting time two hours after rush hour is: " + waitingTimeAverageRider + " min.\n");
-        System.out.println(" The total transffered rider number is: " + (waitRiderNumberNormalRider + waitRiderNumberRushHourRider) + ".\n");       
+        System.out.println(" The train attendance rate during ordinary time is: " + String.valueOf(attendanceRateTrainNormal) + "%.\n");
+        System.out.println(" The train attendance rate during rush hour is: " +  String.valueOf(attendanceRateTrainRushHour) + "%.\n");
+        System.out.println(" The average train attendance rate is: " + String.valueOf(attendanceRateTrainAverage) + "%.\n");
+        System.out.println(" The total vehicle attendance rate during ordinary time is: " + String.valueOf(attendanceRateNormal) + "%.\n");
+        System.out.println(" The total vehicle attendance rate during rush hour is: " + String.valueOf(attendanceRateRushHour) + "%.\n");
+        System.out.println(" The average vehicle attendance rate is: " + String.valueOf(attendanceRateAverage) + "%.\n");  
+        System.out.println(" The rider average waiting time during ordinary time is: " + String.valueOf(waitingTimeNormalRider) + " min.\n");
+        System.out.println(" The rider average waiting time during rush hour is: " + String.valueOf(waitingTimeRushHourRider) + " min.\n");
+        System.out.println(" The rider average waiting time is: " + String.valueOf(waitingTimeAverageRider) + " min.\n");
+        System.out.println(" The total transffered rider number is: " + String.valueOf(waitRiderNumberNormalRider + waitRiderNumberRushHourRider) + ".\n");*/
+		return finalText;       
     }
     
     public void displayModel() {
@@ -383,10 +416,10 @@ public class TransitionSystem {
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
-            
+            //System.out.println("File opened!");
             bw.write("digraph G\n");
             bw.write("{\n");
-    	
+            //System.out.println("Start writing!");
             busNodes = new ArrayList<MiniPair>();
             trainNodes = new ArrayList<MiniPair>();
             for (Bus b: buses.values()) { 
@@ -410,6 +443,7 @@ public class TransitionSystem {
             	    bw.write("  bus" + c.getID() + " [ label=\"bus#" + c.getID() + " | " + c.getValue() + "/" + capacity + " riding\", shape=\"box\", color=\"" + "#0000cc" + "\"];\n");
             }
             bw.newLine();
+            //System.out.println("Write bus!");
             for (MiniPair c: trainNodes) {
                 if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { 
                     colorSelector++; 
@@ -419,19 +453,22 @@ public class TransitionSystem {
                 bw.write("  train" + c.getID() + " [ label=\"train#" + c.getID() + " | " + c.getValue() + "/" + capacity + " riding\", shape=\"box\", color=\"" + "#ff0000" + "\"];\n");
             }
             bw.newLine();
-            
+            //System.out.println("Write train!");
             stopNodes = new ArrayList<MiniPair>();
             for (Stop s: stops.values()) { stopNodes.add(new MiniPair(s.getID(), s.getWaiting().size())); }
             Collections.sort(stopNodes, compareEngine);
-
+            
             colorSelector = 0;
             colorCount = 0;
             colorTotal = stopNodes.size();    	
             for (MiniPair t: stopNodes) {
+            	
             	if (((int) (colorCount++ * 100.0 / colorTotal)) > colorScale[colorSelector]) { colorSelector++; }
             	Stop stop = stops.get(t.getID());
+            	//System.out.println(stop.getName());
             	int waiting = stop.getAverageWaitingTime();
-            	bw.write("  stop" + t.getID() + " [ label=\"stop#" + t.getID() + " | " + t.getValue() + " waiting\n" + " Avg.waiting " + waiting + "min\", color=\"" +  "#000000"  + "\"];\n");
+            	//System.out.println("There!");
+            	bw.write("  stop" + t.getID() + " [ label=\"stop#" + t.getID() + " | " + t.getValue() + " waiting\n" + " Avg.waiting " + waiting+"min\", color=\"" +  "#000000"  + "\"];\n");
             }
             bw.newLine();
             
