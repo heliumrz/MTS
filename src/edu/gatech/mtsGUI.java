@@ -8,6 +8,14 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,15 +29,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.awt.BorderLayout;
 
 public class mtsGUI extends JFrame {
 
@@ -136,44 +135,70 @@ public class mtsGUI extends JFrame {
 		panel_2.add(tabbedPane_1);
 		
 		textArea_1 = new JTextArea();
-		textArea_1.setText("add_stop,0,Appleville,0.0,0.08,10\n" + 
-				"add_stop,1,Banana Bayou,0.04,0.1,20\n" + 
-				"add_stop,2,Star City,0.08,0.16,10\n" + 
-				"add_stop,3,Cherry City,0.16,0.1,30\n" + 
-				"add_stop,4,West Side,0.01,0.01,20\n" + 
-				"add_stop,5,South Side,0.04,0.01,10\n" + 
-				"add_stop,6,East Side,0.1,0.02,80\n" + 
-				"add_stop,7,Central City,0.04,0.05,20\n" + 
-				"add_bus_route,0,10,Express\n" + 
-				"add_bus_route,1,16,Perimeter\n" + 
-				"add_rail_route,2,15,rail1\n" + 
-				"extend_bus_route,0,0\n" + 
-				"extend_bus_route,0,1\n" + 
+		textArea_1.setText("add_stop,0,Appleville,0.0,0.08,1\n" + 
+				"add_stop,1,Banana Bayou,0.04,0.1,2\n" + 
+				"add_stop,2,Star City,0.08,0.16,1\n" + 
+				"add_stop,3,Cherry City,0.16,0.1,1\n" + 
+				"add_stop,4,West Side,0.01,0.01,2\n" + 
+				"add_stop,5,South Side,0.04,0.01,1\n" + 
+				"add_stop,6,East Side,0.1,0.02,1\n" + 
+				"add_stop,7,Huangshan City,0.04,0.05,1\n" + 
+				"add_stop,8,Jinzhai City,0.04,0.05,1\n" + 
+				"add_stop,9,Hefei City,0.04,0.05,1\n" + 
+				"add_stop,10,Guangzhou City,0.04,0.05,1\n" + 
+				"add_stop,11,Chengdu City,0.04,0.05,1\n" + 
+				"add_bus_route,0,0,Express\n" + 
+				"add_bus_route,1,1,Perimeter\n" + 
+				"add_rail_route,0,0,rail1one\n" + 
+				"add_rail_route,1,1,rail1two\n" + 
 				"extend_bus_route,0,2\n" + 
-				"extend_bus_route,1,3\n" + 
-				"extend_bus_route,1,4\n" + 
-				"extend_bus_route,1,5\n" + 
-				"extend_rail_route,2,7\n" + 
-				"extend_rail_route,2,1\n" + 
-				"extend_rail_route,2,3\n" + 
-				"extend_rail_route,2,5\n" + 
-				"add_bus,0,0,0,10,50.00\n" + 
-				"add_bus,1,1,0,10,30.00\n" + 
-				"add_train,2,2,0,100,100.00\n" + 
-				"set_road_condition,0,0,1,1.20,10.00,40.00,60.00\n" + 
-				"set_road_condition,0,1,2,1.20,10.00,40.00,60.00\n" + 
-				"set_road_condition,0,2,0,3.60,10.00,40.00,60.00\n" + 
-				"set_road_condition,1,3,4,1.20,10.00,40.00,60.00\n" + 
-				"set_road_condition,1,4,5,1.20,10.00,40.00,60.00\n" + 
-				"set_road_condition,1,5,3,3.60,10.00,40.00,60.00\n" + 
-				"set_rail_stop_distance,2,7,1,17.20\n" + 
-				"set_rail_stop_distance,2,1,3,17.20\n" + 
-				"set_rail_stop_distance,2,3,5,17.20\n" + 
-				"set_rail_stop_distance,2,5,7,30.20\n" + 
+				"extend_bus_route,0,3\n" + 
+				"extend_bus_route,0,4\n" + 
+				"extend_bus_route,0,5\n" + 
+				"extend_bus_route,1,6\n" + 
+				"extend_bus_route,1,7\n" + 
+				"extend_bus_route,1,8\n" + 
+				"extend_bus_route,1,9\n" + 
+				"extend_rail_route,0,0\n" + 
+				"extend_rail_route,0,3\n" + 
+				"extend_rail_route,0,7\n" + 
+				"extend_rail_route,0,10\n" + 
+				"extend_rail_route,1,1\n" + 
+				"extend_rail_route,1,4\n" + 
+				"extend_rail_route,1,8\n" + 
+				"extend_rail_route,1,11\n" + 
+				"add_bus,0,0,0,30,80.00\n" + 
+				"add_bus,1,1,0,30,80.00\n" + 
+				"add_bus,2,0,0,30,80.00\n" + 
+				"add_bus,3,1,0,30,80.00\n" + 
+				"add_train,0,0,0,200,100.00\n" + 
+				"add_train,1,1,0,200,100.00\n" + 
+				"set_road_condition,0,2,3,2.20,20.00,40.00,60.00\n" + 
+				"set_road_condition,0,3,4,2.20,20.00,40.00,60.00\n" + 
+				"set_road_condition,0,4,5,3.60,20.00,40.00,60.00\n" + 
+				"set_road_condition,0,5,2,3.60,20.00,40.00,60.00\n" + 
+				"set_road_condition,1,6,7,3.20,60.00,80.00,100.00\n" + 
+				"set_road_condition,1,7,8,2.20,20.00,40.00,60.00\n" + 
+				"set_road_condition,1,8,9,3.60,20.00,40.00,60.00\n" + 
+				"set_road_condition,1,9,6,3.60,20.00,40.00,60.00\n" + 
+				"set_rail_stop_distance,0,0,3,3.50\n" + 
+				"set_rail_stop_distance,0,3,7,3.50\n" + 
+				"set_rail_stop_distance,0,7,10,3.50\n" + 
+				"set_rail_stop_distance,0,10,0,3.50\n" + 
+				"set_rail_stop_distance,1,1,4,3.50\n" + 
+				"set_rail_stop_distance,1,4,8,3.50\n" + 
+				"set_rail_stop_distance,1,8,11,3.50\n" + 
+				"set_rail_stop_distance,1,11,1,3.50\n" + 
 				"add_event,0,move_bus,0\n" + 
 				"add_event,0,move_bus,1\n" + 
-				"add_event,0,move_train,2\n" + 
-				"step_multi,300,100,0,10");
+				"add_event,0,move_train,0\n" + 
+				"add_event,0,move_train,1\n" + 
+				"add_event,5,move_bus,2\n" + 
+				"add_event,5,move_bus,3\n" + 
+				"step_multi,240,10,1,10\n" + 
+				"system_report\n" + 
+				"display_model\n" + 
+				"quit");
 		textArea_1.setBounds(12, 12, 675, 229);
 		JScrollPane commandList = new JScrollPane(textArea_1,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
