@@ -561,6 +561,12 @@ public class TransitionSystem {
 				bw.write("  train" + Integer.toString(m.getID()) + " -> stop" + Integer.toString(nextStop)
 						+ " [ label=\" arr\" ];\n");
 			}
+	          
+			            for (MiniPair stopPair: routesOnStop.keySet()) {
+			                Integer preStop = stopPair.getID();
+			                Integer nextStop = stopPair.getValue();
+			                bw.write("  stop" + Integer.toString(preStop) + " -> stop" + Integer.toString(nextStop) + " [ style=dotted];\n");
+			           }
 
 			bw.write("}\n");
 			bw.close();
