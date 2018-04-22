@@ -59,7 +59,7 @@ add_event,0,move_train,0
 add_event,0,move_train,1
 add_event,5,move_bus,2
 add_event,5,move_bus,3
-step_multi,120,10,2,10
+step_multi,240,10,2,10
 system_report
 display_model
 quit
